@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/ReusableWidget/rounded_button.dart';
 import 'package:qr_code_scanner/SplashScreens/fourth_screen.dart';
 
-import '../ReusableWidget/splash_screen_widget.dart';
-
 class ThirdScreen extends StatefulWidget {
   const ThirdScreen({super.key});
 
