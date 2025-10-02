@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "40973923063",
+    "firebase_url": "https://qrcode-b7c90-default-rtdb.firebaseio.com",
+    "project_id": "qrcode-b7c90",
+    "storage_bucket": "qrcode-b7c90.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40973923063:android:5bd1834f503f4647c699f2",
+        "android_client_info": {
+          "package_name": "com.example.qr_code_scanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw5ea7N8rOtCruOaEqXOsAQoRxuafs5gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40973923063:android:cb9a6692c27f56c3c699f2",
+        "android_client_info": {
+          "package_name": "com.techSafwan.qr_code_scanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw5ea7N8rOtCruOaEqXOsAQoRxuafs5gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
