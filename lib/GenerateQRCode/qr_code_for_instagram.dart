@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
+import '../SavingCreateQrCode/save_qr_code_services.dart';
 
 class QrCodeForInstagram extends StatefulWidget {
   const QrCodeForInstagram({super.key});
@@ -12,6 +14,20 @@ class QrCodeForInstagram extends StatefulWidget {
 
 class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
   final usernameController = TextEditingController();
+  void generateQrCode(){
+    final userName=usernameController.text.trim();
+    final instagramUrl="https://www.instagram.com/$userName";
+    if(userName.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(backgroundColor: Colors.red,
+              content: Text("Please enter username of instagram")));
+      return;
+    }
+    final qrData=instagramUrl;
+    SaveQrCode saveQrCode=SaveQrCode();
+    saveQrCode.saveQrCodeData(qrData);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +55,7 @@ class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height * .13),
           GenerateQRCodeUsingChannel(title: "Username",
-              onTap: (){
-              },
+              onTap:generateQrCode,
               image: "assets/images/InstagramIcon.png",
               controller: usernameController,
               hintText: "Enter instagram username"

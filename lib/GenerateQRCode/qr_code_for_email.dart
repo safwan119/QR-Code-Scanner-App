@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
+import '../SavingCreateQrCode/save_qr_code_services.dart';
 
 class QrCodeForEmail extends StatefulWidget {
   const QrCodeForEmail({super.key});
@@ -12,6 +14,20 @@ class QrCodeForEmail extends StatefulWidget {
 
 class _QrCodeForEmailState extends State<QrCodeForEmail> {
   final emailController = TextEditingController();
+  void generateQrCode(){
+    final userEmail=emailController.text.trim();
+    final emailInput="mailto:$userEmail";
+    if(userEmail.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(backgroundColor: Colors.red,
+              content: Text("Please enter email address")));
+      return;
+    }
+    final qrData=emailInput;
+    SaveQrCode saveQrCode=SaveQrCode();
+    saveQrCode.saveQrCodeData(qrData);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +55,7 @@ class _QrCodeForEmailState extends State<QrCodeForEmail> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height * .13),
           GenerateQRCodeUsingChannel(title: "Email",
-              onTap: (){
-              },
+              onTap:generateQrCode,
               image: "assets/images/EmailIcon.png",
               controller:emailController,
               hintText: "Enter email address"
