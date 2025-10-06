@@ -50,6 +50,7 @@ class _GenerateQRCodeUsingChannelState extends State<GenerateQRCodeUsingChannel>
               SizedBox(height: 10),
               TextFormField(
                 controller: widget.controller,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   border: OutlineInputBorder(
