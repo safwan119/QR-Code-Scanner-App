@@ -4,7 +4,7 @@ import '../SharedPreference/user_id_services.dart';
 
 class DeviceIdProvider with ChangeNotifier{
   UserIdServices userIdServices = UserIdServices();
-  late String _deviceId;
+  String _deviceId="";
   String get deviceId=>_deviceId;
 
   Future<void> initializeDeviceId() async {
