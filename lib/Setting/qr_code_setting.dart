@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating/flutter_rating.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/Message/flutter_toast_message.dart';
-import 'package:qr_code_scanner/SharedPreference/user_id_services.dart';
+import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:qr_code_scanner/state/camera_control_provider.dart';
+import 'package:qr_code_scanner/state/device_id_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrCodeSetting extends StatefulWidget {
@@ -19,79 +17,27 @@ class QrCodeSetting extends StatefulWidget {
 }
 
 class _QrCodeSettingState extends State<QrCodeSetting> {
-  final firebaseDatabaseReference=FirebaseDatabase.instance.ref("Rating");
-  final dbRef=FirebaseDatabase.instance.ref("Switch");
-  bool vibrateSwitch = false;
-  bool beepSwitch = true;
-  late double _rating=0.0;
-  @override
-  void initState(){
-    super.initState();
-    switchStoringData();
-    ratingDataStore();
-  }
-  Future<void> switchStoringData() async {
-    UserIdServices userIdServices=UserIdServices();
-    final deviceId=await userIdServices.getOrCreateUserId();
-     await dbRef.child(deviceId).once().then((snapshot){
-       final data = snapshot.snapshot.value as Map?;
-       if(data!=null){
-         setState(() {
-           vibrateSwitch=data["VibrateSwitch"]??false;
-           beepSwitch=data["BeepSwitch"]??false;
-         });
-       }
-     });
+  final firebaseDatabaseReference = FirebaseDatabase.instance.ref("Rating");
+  final dbRef = FirebaseDatabase.instance.ref("Switch");
+  bool _isDataLoaded = false;
 
-  }
-  Future<void> ratingDataStore() async {
-    UserIdServices userIdServices=UserIdServices();
-    final deviceId=await userIdServices.getOrCreateUserId();
-    await firebaseDatabaseReference.child(deviceId).once().then((snapshot){
-      final data = snapshot.snapshot.value as Map?;
-      if(data!=null){
-        final dynamic ratingValue = data["rating"];
-
-        setState(() {
-          if (ratingValue is num) {
-            _rating = ratingValue.toDouble();
-          } else {
-            _rating = 0.0;
-          }
-        });
-        print("The rating in this id is :$_rating");
-      }
-    });
-
-  }
-  Future<void> shareApkFile(BuildContext context) async {
-     String fileName = 'app-release.apk';
-    final tempDir = await getTemporaryDirectory();
-     final ByteData data = await rootBundle.load("assets/files/app-release.apk");
-     final List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-     final fileToShare = File('${tempDir.path}/$fileName');
-    try {
-      final xFile = XFile(
-        fileToShare.path,
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isDataLoaded) {
+      final settingControlProvider = Provider.of<CameraControlProvider>(
+        context,
+        listen: false,
       );
-      await fileToShare.writeAsBytes(bytes, flush: true);
-      await SharePlus.instance.share(
-      ShareParams( files: [xFile],
-        text: 'Here is the APK of my Flutter app.',)
-      );
-
-    } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text('Error sharing APK. File might be missing in assets: $e'),
-          ),
-        );
+      settingControlProvider.switchStoringData(context);
+      settingControlProvider.ratingDataStore(context);
+      _isDataLoaded = true;
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    final settingControlProvider = Provider.of<CameraControlProvider>(context);
+    final idProvider = Provider.of<DeviceIdProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white12,
       body: SingleChildScrollView(
@@ -99,17 +45,23 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * .03),
-            InkWell(onTap: ()=>Navigator.pop(context),
-                child: Image.asset("assets/images/ArrowBackPic.png")),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Image.asset("assets/images/ArrowBackPic.png"),
+            ),
             SizedBox(height: MediaQuery.of(context).size.height * .03),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Setting",
-                style:textStyle(fontSize: 30,isColor: true,color: Colors.amber.shade600)
+                style: textStyle(
+                  fontSize: 30,
+                  isColor: true,
+                  color: Colors.amber.shade600,
+                ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Card(
@@ -133,19 +85,13 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                   trailing: Switch(
                     activeThumbColor: Colors.amber.shade600,
-                    value: vibrateSwitch,
+                    value: settingControlProvider.vibrateSwitch,
                     onChanged: (value) async {
-
-                      setState(() {
-
-                        vibrateSwitch = value;
-                        beepSwitch=!value;
-                      });
-                      UserIdServices userIdServices=UserIdServices();
-                     final deviceId= await userIdServices.getOrCreateUserId();
-                      dbRef.child(deviceId).set({
-                        "VibrateSwitch":vibrateSwitch,
-                        "BeepSwitch":beepSwitch,
+                      settingControlProvider.setVibrateSwitch(value);
+                      await idProvider.initializeDeviceId();
+                      dbRef.child(idProvider.deviceId).set({
+                        "VibrateSwitch": settingControlProvider.vibrateSwitch,
+                        "BeepSwitch": settingControlProvider.beepSwitch,
                       });
                     },
                   ),
@@ -176,18 +122,13 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                   trailing: Switch(
                     activeThumbColor: Colors.amber.shade600,
-                    value: beepSwitch,
+                    value: settingControlProvider.beepSwitch,
                     onChanged: (value) async {
-
-                      setState(() {
-                        beepSwitch=value;
-                        vibrateSwitch = !value;
-                      });
-                      UserIdServices userIdServices=UserIdServices();
-                      final deviceId= await userIdServices.getOrCreateUserId();
-                      dbRef.child(deviceId).set({
-                        "VibrateSwitch":vibrateSwitch,
-                        "BeepSwitch":beepSwitch,
+                      settingControlProvider.setBeepSwitch(value);
+                      await idProvider.initializeDeviceId();
+                      dbRef.child(idProvider.deviceId).set({
+                        "VibrateSwitch": settingControlProvider.vibrateSwitch,
+                        "BeepSwitch": settingControlProvider.beepSwitch,
                       });
                     },
                   ),
@@ -199,13 +140,18 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Support",
-                style:textStyle(fontSize: 30,color: Colors.amber.shade600,isColor: true)
+                style: textStyle(
+                  fontSize: 30,
+                  color: Colors.amber.shade600,
+                  isColor: true,
+                ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: InkWell(onTap: ()=>_showDialogBox(_rating),
+              child: InkWell(
+                onTap: () => _showDialogBox(),
                 child: ReusableCard(
                   image: "assets/images/RateIcon.png",
                   title: "Rate Us",
@@ -215,7 +161,8 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: InkWell(onTap: ()=>shareApkFile(context),
+              child: InkWell(
+                onTap: () => SharedApkAndQrData.shareApkFile(context),
                 child: ReusableCard(
                   image: "assets/images/ShareIcon.png",
                   title: "Share",
@@ -225,13 +172,16 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: InkWell(onTap: () async {
-                final Uri uri=Uri.parse("https://sites.google.com/view/qr-code-app--privacy-policy/home");
-                await launchUrl(uri,mode: LaunchMode.externalApplication);
-                if (!await launchUrl(uri)) {
-                throw 'Could not launch $uri';
-                }
-              },
+              child: InkWell(
+                onTap: () async {
+                  final Uri uri = Uri.parse(
+                    "https://sites.google.com/view/qr-code-app--privacy-policy/home",
+                  );
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  if (!await launchUrl(uri)) {
+                    throw 'Could not launch $uri';
+                  }
+                },
                 child: ReusableCard(
                   image: "assets/images/PrivacyIcon.png",
                   title: "Privacy Policy",
@@ -244,64 +194,115 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
       ),
     );
   }
-  Future<void> _showDialogBox(double currentRating)async{
-    return showDialog(context: context, builder: (context){
-      return StatefulBuilder(
-        builder: (BuildContext dialogContext, StateSetter setDialogState) {
-          return AlertDialog(scrollable: true,shadowColor: Colors.amber.shade700,
-            title: Center(child: Text("Rate Us",style: TextStyle(color: Colors.white),)),
-            backgroundColor: Colors.black,
-            content:  StarRating(
-              borderColor: Colors.white,
-              rating: currentRating,
-              allowHalfRating: false,
-              onRatingChanged: (rating) =>
-                  setDialogState(() => currentRating = rating),
-              size: 40,
-              color: Colors.amber,
-            ),
-            actions: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButton(style: TextButton.styleFrom(backgroundColor: Colors.white12,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                        onPressed: ()=>Navigator.pop(context), child: Text("Cancel",style: TextStyle(color: Colors.white),)),
-                  ),
-                  SizedBox(width: 5,),
-                  Expanded(
-                    child: TextButton(style: TextButton.styleFrom(backgroundColor: Colors.amber.shade700,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                        onPressed: () async {
-                      UserIdServices userIdServices=UserIdServices();
-                      final deviseId=await userIdServices.getOrCreateUserId();
-                      if(deviseId!=null) {
-                        firebaseDatabaseReference.child(deviseId).once().then((snapshot){
-                          final data = snapshot.snapshot.value as Map?;
-                          if (data != null && data.isNotEmpty) {
-                            FlutterToastMessage().toastMessage("You have already submitted the review");
-                          }
-                          else{
-                        firebaseDatabaseReference.child(deviseId).set({
-                          "rating": currentRating,
-                        }).then((value) {
-                          FlutterToastMessage().toastMessage(
-                              "Submit Successfully");
-                        }).onError((error, stackTrace) {
-                          FlutterToastMessage().toastMessage(
-                              "Any error accour during submitting review");
-                        });}
-                          });
-                      }
-                            Navigator.pop(context);
-                        }, child: Text("Submit",style: TextStyle(color: Colors.black),)),
-                  ),
-                ],
-              ),
 
-            ],
-          );
-        }
-      );
-    });
+  Future<void> _showDialogBox() async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext dialogContext, StateSetter setDialogState) {
+            final settingControlProvider = Provider.of<CameraControlProvider>(
+              context,
+              listen: false,
+            );
+            return AlertDialog(
+              scrollable: true,
+              shadowColor: Colors.amber.shade700,
+              title: Center(
+                child: Text("Rate Us", style: TextStyle(color: Colors.white)),
+              ),
+              backgroundColor: Colors.black,
+              content: StarRating(
+                borderColor: Colors.white,
+                rating: settingControlProvider.rating,
+                allowHalfRating: false,
+                onRatingChanged: (rating) {
+                  setDialogState(() {
+                    settingControlProvider.setRating(rating);
+                  });
+                },
+                size: 40,
+                color: Colors.amber,
+              ),
+              actions: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.amber.shade700,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () async {
+                          final idProvider = Provider.of<DeviceIdProvider>(
+                            context,
+                            listen: false,
+                          );
+                          await idProvider.initializeDeviceId();
+                          if (idProvider.deviceId != null) {
+                            firebaseDatabaseReference
+                                .child(idProvider.deviceId)
+                                .once()
+                                .then((snapshot) {
+                                  final data = snapshot.snapshot.value as Map?;
+                                  if (data != null && data.isNotEmpty) {
+                                    FlutterToastMessage().toastMessage(
+                                      "You have already submitted the review",
+                                    );
+                                  } else {
+                                    firebaseDatabaseReference
+                                        .child(idProvider.deviceId)
+                                        .set({
+                                          "rating":
+                                              settingControlProvider.rating,
+                                        })
+                                        .then((value) {
+                                          FlutterToastMessage().toastMessage(
+                                            "Submit Successfully",
+                                          );
+                                        })
+                                        .onError((error, stackTrace) {
+                                          FlutterToastMessage().toastMessage(
+                                            "an error during submitting review",
+                                          );
+                                        });
+                                  }
+                                });
+                          }
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }
 
