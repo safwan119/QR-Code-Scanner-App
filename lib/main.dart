@@ -6,6 +6,7 @@ import 'package:qr_code_scanner/route/routes.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 import 'package:qr_code_scanner/state/camera_control_provider.dart';
 import 'package:qr_code_scanner/state/device_id_provider.dart';
+import 'package:qr_code_scanner/state/gallery_image_provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CameraControlProvider(),),
         ChangeNotifierProvider(create: (context)=>DeviceIdProvider()),
+        ChangeNotifierProvider(create: (context)=>GalleryImageProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        initialRoute: RoutesName.firstScreen,
+        initialRoute: RoutesName.eleventhScreen,
         onGenerateRoute: Routes.generateRoutes,
       ),
     );
