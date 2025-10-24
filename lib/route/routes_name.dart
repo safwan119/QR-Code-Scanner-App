@@ -1,0 +1,28 @@
+class RoutesName {
+  static const String firstScreen = "first_screen";
+  static const String fourthScreen = "fourth_screen";
+  static const String fifthScreen = "fifth_screen";
+  static const String sixthScreen = "sixth_screen";
+  static const String seventhScreen = "seventh_screen";
+  static const String eighthScreen = "eighth_screen";
+  static const String ninthScreen = "ninth_screen";
+  static const String tenthScreen = "tenth_screen";
+  static const String eleventhScreen = "eleventh_screen";
+  static const String homeScreen = "home_screen";
+  static const String businessScreen = "business_screen";
+  static const String contactScreen = "contact_screen";
+  static const String emailScreen = "email_screen";
+  static const String eventScreen = "event_screen";
+  static const String instagramScreen = "instagram_screen";
+  static const String locationScreen = "location_screen";
+  static const String phoneScreen = "phone_screen";
+  static const String textScreen = "text_screen";
+  static const String twitterScreen = "twitter_screen";
+  static const String websiteScreen = "website_screen";
+  static const String whatsappScreen = "whatsapp_screen";
+  static const String wifiScreen = "wifi_screen";
+  static const String generateScreen = "generate_screen";
+  static const String historyScreen = "history_screen";
+  static const String settingScreen = "setting_screen";
+  static const String bottomNavigationScreen = "bottomNavigationScreen_screen";
+}
