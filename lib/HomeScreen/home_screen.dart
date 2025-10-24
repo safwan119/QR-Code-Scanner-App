@@ -1,18 +1,15 @@
-import 'dart:io';
-
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:qr_code_scanner/Message/flutter_toast_message.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/Result/qr_code_result.dart';
+import 'package:qr_code_scanner/SavingCreateQrCode/save_qr_code_services.dart';
 import 'package:qr_code_scanner/constants/controllers.dart';
-import 'package:vibration/vibration.dart';
+import 'package:qr_code_scanner/constants/gallery_selected_image.dart';
+import 'package:qr_code_scanner/state/camera_control_provider.dart';
+import 'package:qr_code_scanner/state/gallery_image_provider.dart';
 
-import '../SharedPreference/user_id_services.dart';
-import 'package:intl/intl.dart';
-import 'package:audioplayers/audioplayers.dart';
+import '../constants/public_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,151 +18,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>{
-  double _sliderValue = 0.0;
-  final double _zoomStep = 0.1;
-  bool isTorchOn = false;
-  String? qrCodeLink;
-  File? image;
-  String? imageUrl;
-  bool vibrateSwitch =false;
-  bool beepSwitch =true;
-  final picker = ImagePicker();
-  static final _audioPlayer = AudioPlayer();
-  final databaseReference = FirebaseDatabase.instance.ref("ScannedData");
-  final beepVibrateDatabaseRef = FirebaseDatabase.instance.ref("Switch");
-
-  @override
-  void initState() {
-    super.initState();
-    switchStoringData();
-  }
-  @override
-  void dispose() {
-    Controllers.scannerController.dispose();
-    super.dispose();
-  }
-
-
-  Future<void> switchStoringData() async {
-    UserIdServices userIdServices = UserIdServices();
-    final deviceId = await userIdServices.getOrCreateUserId();
-    await beepVibrateDatabaseRef.child(deviceId).once().then((snapshot) {
-      final data = snapshot.snapshot.value as Map?;
-      if (data != null) {
-        setState(() {
-          vibrateSwitch = data["VibrateSwitch"] ?? false;
-          beepSwitch = data["BeepSwitch"] ?? false;
-        });
-      }
-    });
-  }
-
-  Future<void> soundEffectOnCapturingQrCode() async {
-
-
-    if (vibrateSwitch) {
-      if (await Vibration.hasVibrator()) {
-        Vibration.vibrate(duration: 500);
-        print(" vibration is accour!:");
-      }
-    }
-   else if (beepSwitch) {
-      await _audioPlayer.play(volume: 100.0,
-          AssetSource('audio/scanner-beep.mp3'));
-      print(" Beep is accour!:");
-    }
-   else{
-     if (kDebugMode) {
-       print("No Switch is on or no vibration is accour!:");
-     }
-    }
-  }
-
-  Future<void> saveScanDataResultToDatabase(String scanResult) async {
-    final userIdService = UserIdServices();
-    final deviceId = await userIdService.getOrCreateUserId();
-    final id = DateTime.now().millisecondsSinceEpoch.toString();
-    databaseReference
-        .child(deviceId)
-        .child(id)
-        .set({"id": id, "dateTime": dateTime, "scanResult": scanResult});
-  }
-
-  final dateTime = DateFormat("dd MMMM yyyy, hh:mm a").format(DateTime.now());
-
-  void _changeZoom(bool zoomIn) {
-    double newZoomValue = _sliderValue;
-    if (zoomIn) {
-      newZoomValue = (_sliderValue + _zoomStep).clamp(0.0, 1.0);
-    } else {
-      newZoomValue = (_sliderValue - _zoomStep).clamp(0.0, 1.0);
-    }
-    if (newZoomValue != _sliderValue) {
-      setState(() {
-        _sliderValue = newZoomValue;
-      });
-      Controllers.scannerController.setZoomScale(newZoomValue);
-    }
-  }
-
-  Future<void> scanFromGalleryImageAndUpload() async {
-    final imagePicker = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-
-    if (imagePicker == null) {
-      FlutterToastMessage().toastMessage("No image selected from gallery");
-      return;
-    }
-
-    File selectedFile = File(imagePicker.path);
-    Controllers.scannerController.stop();
-    setState(() {
-      image = selectedFile;
-      qrCodeLink = null;
-    });
-    final capture = await Controllers.scannerController.analyzeImage(selectedFile.path);
-    String? scannedCode;
-    if (capture != null && capture.barcodes.isNotEmpty) {
-      scannedCode = capture.barcodes.first.rawValue;
-    }
-    if (scannedCode != null) {
-      setState(() {
-        qrCodeLink = scannedCode;
-      });
-      if (mounted) {
-        saveScanDataResultToDatabase(qrCodeLink!);
-        soundEffectOnCapturingQrCode();
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => QrCodeResult(qrCodeLink!)),
-        );
-        if (mounted) {
-          setState(() {
-            image = null;
-            qrCodeLink = null;
-          });
-          Controllers.scannerController.start();
-        }
-      }
-    } else {
-      setState(() {
-        image = null;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('No QR Code found in the image.'),
-        ),
-      );
-      Controllers.scannerController.start();
-    }
-  }
-
+class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cameraControlProvider = Provider.of<CameraControlProvider>(context);
+    final galleryImageProvider = Provider.of<GalleryImageProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -189,18 +47,18 @@ class _HomeScreenState extends State<HomeScreen>{
                       children: [
                         InkWell(
                           onTap: () {
-                            scanFromGalleryImageAndUpload();
+                            GallerySelectedImage.scanFromGalleryImageAndUpload(
+                              context,
+                            );
                           },
                           child: Image.asset("assets/images/ImageIcon.png"),
                         ),
                         InkWell(
                           onTap: () async {
                             await Controllers.scannerController.toggleTorch();
-                            setState(() {
-                              isTorchOn = !isTorchOn;
-                            });
+                            cameraControlProvider.setTouch();
                           },
-                          child: isTorchOn
+                          child: cameraControlProvider.isTorchOn
                               ? Icon(
                                   Icons.flash_on,
                                   color: Colors.amber.shade600,
@@ -245,13 +103,22 @@ class _HomeScreenState extends State<HomeScreen>{
                                     final String? code = barcodes.isNotEmpty
                                         ? barcodes.first.rawValue
                                         : null;
-                                    if (code != null && qrCodeLink == null) {
+                                    if (code != null &&
+                                        galleryImageProvider.qrCodeLink ==
+                                            null) {
                                       Controllers.scannerController.stop();
-                                      soundEffectOnCapturingQrCode();
-                                      setState(() {
-                                        qrCodeLink = code;
-                                      });
-                                      saveScanDataResultToDatabase(code);
+                                      final soundProvider =
+                                          Provider.of<CameraControlProvider>(
+                                            context,
+                                            listen: false,
+                                          );
+                                      soundProvider
+                                          .soundEffectOnCapturingQrCode();
+                                      galleryImageProvider.setQrLink(code);
+                                      SaveQrCode.saveScanDataResultToDatabase(
+                                        code,
+                                        context,
+                                      );
                                       await Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -263,10 +130,7 @@ class _HomeScreenState extends State<HomeScreen>{
                                         print("The Scanned link is :$code");
                                       }
                                       if (mounted) {
-                                        setState(() {
-                                          image = null;
-                                          qrCodeLink = null;
-                                        });
+                                        galleryImageProvider.setNull();
                                         Controllers.scannerController.start();
                                       }
                                     }
@@ -287,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     children: [
                       InkWell(
                         onTap: () {
-                          _changeZoom(false);
+                          cameraControlProvider.changeZoom(false);
                         },
                         child: Text(
                           '-',
@@ -295,14 +159,12 @@ class _HomeScreenState extends State<HomeScreen>{
                         ),
                       ),
                       Slider(
-                        value: _sliderValue,
+                        value: cameraControlProvider.sliderValue,
                         min: 0.0,
                         max: 1.0,
                         divisions: 100,
                         onChanged: (double newValue) {
-                          setState(() {
-                            _sliderValue = newValue;
-                          });
+                          cameraControlProvider.setSliderValue(newValue);
                           Controllers.scannerController.setZoomScale(newValue);
                         },
                         activeColor: Colors.amber,
@@ -311,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen>{
                       ),
                       InkWell(
                         onTap: () {
-                          _changeZoom(true);
+                          cameraControlProvider.changeZoom(true);
                         },
                         child: Text(
                           '+',
