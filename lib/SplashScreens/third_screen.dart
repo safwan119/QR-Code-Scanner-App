@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class ThirdScreen extends StatefulWidget {
+class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
 
-  @override
-  State<ThirdScreen> createState() => _ThirdScreenState();
-}
-
-class _ThirdScreenState extends State<ThirdScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
