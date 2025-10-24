@@ -1,15 +1,12 @@
-import 'dart:io';
-import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_flutter/qr_flutter.dart' as qrflutter;
-import 'package:share_plus/share_plus.dart';
-import 'package:flutter/rendering.dart';
+
+import '../../constants/public_data.dart';
 
 class QRCode extends StatefulWidget {
   final String qrData;
@@ -21,65 +18,6 @@ class QRCode extends StatefulWidget {
 }
 
 class _QRCodeState extends State<QRCode> {
-  final GlobalKey qrKey = GlobalKey();
-
-  Future<Uint8List?> captureQrCodeAsImage() async {
-    try {
-      final boundary =
-          qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      return byteData?.buffer.asUint8List();
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error capturing QR code for save: $e");
-      }
-      return null;
-    }
-  }
-
-  void shareQrCodeImage(String qrData) async {
-    final bytes = await captureQrCodeAsImage();
-    if (bytes == null) {
-      if (kDebugMode) {
-        print("Image capture failed.");
-      }
-      return;
-    }
-    final directory = await getTemporaryDirectory();
-    final path = '${directory.path}/my_qr_code.png';
-    final file = File(path);
-    await file.writeAsBytes(bytes);
-    await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
-  }
-
-  void saveQrCodeImageToGallery() async {
-    final bytes = await captureQrCodeAsImage();
-    if (bytes == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error: QR code image capture failed.")),
-      );
-      return;
-    }
-    final result = await ImageGallerySaverPlus.saveImage(
-      bytes,
-      quality: 90,
-      name: "QR_Code_${DateTime.now().millisecondsSinceEpoch}",
-    );
-    if (result != null && result['isSuccess']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("✅ QR Code saved successfully to Gallery!"),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("❌ Failed to save QR Code. Check permissions."),
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,13 +89,6 @@ class _QRCodeState extends State<QRCode> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.amber.shade600),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.amber.withOpacity(0.5),
-                  //     spreadRadius: 5,
-                  //     blurRadius: 10,
-                  //   ),
-                  // ],
                 ),
                 child: qrflutter.QrImageView(
                   data: widget.qrData,
@@ -188,18 +119,14 @@ class _QRCodeState extends State<QRCode> {
                   children: [
                     InkWell(
                       onTap: () {
-                        shareQrCodeImage(widget.qrData);
+                        SharedApkAndQrData.shareQrCodeImage(widget.qrData);
                       },
                       child: Image.asset("assets/images/SharePic.png"),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       "Share",
-                      style: GoogleFonts.akayaTelivigala(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 20,
-                      ),
+                      style:textStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -213,7 +140,7 @@ class _QRCodeState extends State<QRCode> {
                           "assets/images/SaveBackground.png",
                         ),
                         InkWell(onTap: () {
-                          saveQrCodeImageToGallery();
+                          SharedApkAndQrData.saveQrCodeImageToGallery(context);
                         },
                             child: Image.asset("assets/images/SaveIcon.png")),
                       ],
@@ -221,11 +148,7 @@ class _QRCodeState extends State<QRCode> {
                     SizedBox(height: 4),
                     Text(
                       "Save",
-                      style: GoogleFonts.akayaTelivigala(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 20,
-                      ),
+                      style:textStyle(fontSize: 20),
                     ),
                   ],
                 ),
