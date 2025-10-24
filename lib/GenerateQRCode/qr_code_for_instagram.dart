@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 
 class QrCodeForInstagram extends StatefulWidget {
   const QrCodeForInstagram({super.key});
@@ -13,11 +14,14 @@ class QrCodeForInstagram extends StatefulWidget {
 }
 
 class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
-  final usernameController = TextEditingController();
+  @override
+  void dispose() {
+    Controllers.userNameController.dispose();
+    super.dispose();
+  }
   void generateQrCode(){
-    final userName=usernameController.text.trim();
-    final instagramUrl="https://www.instagram.com/$userName";
-    if(userName.isEmpty){
+    final instagramUrl="https://www.instagram.com/${Controllers.userName}";
+    if(Controllers.userName.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(backgroundColor: Colors.red,
               content: Text("Please enter username of instagram")));
@@ -45,11 +49,7 @@ class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
               ),
               Text(
                 "Instagram",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22)
               ),
             ],
           ),
@@ -57,7 +57,7 @@ class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
           GenerateQRCodeUsingChannel(title: "Username",
               onTap:generateQrCode,
               image: "assets/images/InstagramIcon.png",
-              controller: usernameController,
+              controller: Controllers.userNameController,
               hintText: "Enter instagram username"
           )
         ],

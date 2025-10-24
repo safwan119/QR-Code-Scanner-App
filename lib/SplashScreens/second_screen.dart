@@ -27,7 +27,7 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SplashScreenWidget(
-        image: "assets/images/SecondQRCodePic.png",
+        image: "assets/images/QRCodeImage.png",
         bgColor: Colors.amber.shade600,
       ),
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
+import 'package:qr_code_scanner/constants/qr_code_outputs.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../ReusableWidget/generate_button.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 
 class QrCodeForEvent extends StatefulWidget {
   const QrCodeForEvent({super.key});
@@ -13,29 +15,19 @@ class QrCodeForEvent extends StatefulWidget {
 }
 
 class _QrCodeForEventState extends State<QrCodeForEvent> {
-  final eventNameController = TextEditingController();
-  final startDateTimeController = TextEditingController();
-  final endDateTimeController = TextEditingController();
-  final eventLocationController = TextEditingController();
-  final descriptionController = TextEditingController();
-
+ @override
+  void dispose() {
+   Controllers.eventNameController.dispose();
+   Controllers.startDateTimeController.dispose();
+   Controllers.endDateTimeController.dispose();
+   Controllers.eventLocationController.dispose();
+    super.dispose();
+  }
   void generateQrCode() {
-    final eventName = eventNameController.text.trim();
-    final startDateTime = startDateTimeController.text.trim();
-    final endDateTime = endDateTimeController.text.trim();
-    final eventLocation = eventLocationController.text.trim();
-    final description = descriptionController.text.trim();
-    final eventOutput="Event Data\n"
-        "Event Name:$eventName\n"
-        "StartDateTime:$startDateTime\n"
-        "EndDateTime:$endDateTime\n"
-        "LOCATION:$eventLocation\n"
-        "DESCRIPTION:$description";
-
-    if (eventName.isEmpty ||
-        startDateTime.isEmpty ||
-        endDateTime.isEmpty ||
-        eventLocation.isEmpty) {
+    if (Controllers.eventName.isEmpty ||
+        Controllers.startDateTime.isEmpty ||
+        Controllers.endDateTime.isEmpty ||
+        Controllers.eventLocation.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Please fill all fields for generating qr code"),
@@ -43,7 +35,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
       );
       return;
     }
-    final qrData=eventOutput;
+    final qrData=QrCodeOutputs.eventDetailOutput;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
      Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
@@ -66,11 +58,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                 ),
                 Text(
                   "Event",
-                  style: GoogleFonts.akayaTelivigala(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 22,
-                  ),
+                  style:textStyle(fontSize: 22)
                 ),
               ],
             ),
@@ -102,16 +90,12 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Event Name",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style:textStyle(fontSize: 22)
                         ),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        controller: eventNameController,
+                        controller: Controllers.eventNameController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "Enter event name",
@@ -127,16 +111,12 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Start Date and Time",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style:textStyle(fontSize: 22)
                         ),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        controller: startDateTimeController,
+                        controller: Controllers.startDateTimeController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "12 Dec 2022, 10:40 pm",
@@ -152,16 +132,12 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "End Date and Time",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style:textStyle(fontSize: 22)
                         ),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        controller: endDateTimeController,
+                        controller: Controllers.endDateTimeController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "12 Dec 2022, 10:40 pm",
@@ -177,16 +153,12 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Event Location",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style:textStyle(fontSize: 22)
                         ),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        controller: eventLocationController,
+                        controller: Controllers.eventLocationController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "Enter location",
@@ -202,16 +174,12 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Description",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style:textStyle(fontSize: 22)
                         ),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        controller: descriptionController,
+                        controller: Controllers.descriptionController,
                         style: TextStyle(color: Colors.white),
                         maxLines: 3,
                         decoration: InputDecoration(

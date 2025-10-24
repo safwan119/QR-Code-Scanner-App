@@ -44,7 +44,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
       ),
       body: IndexedStack(
         index: itemIndex,
-        children: screens,
+        children: screens.map((screen) {
+          int screenIndex = screens.indexOf(screen);
+               return screenIndex == itemIndex
+              ? screen
+              : Container();
+
+        }).toList(),
       ),
     );
   }

@@ -1,13 +1,12 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
 import 'package:qr_code_scanner/Result/qr_code_result.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 import 'package:shimmer/shimmer.dart';
 
 
-import '../Setting/qr_code_setting.dart';
 import '../SharedPreference/user_id_services.dart';
 
 class QrCodeHistory extends StatefulWidget {
@@ -46,13 +45,9 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                   children: [
                     Text(
                       "History",
-                      style: GoogleFonts.akayaTelivigala(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 30,
-                      ),
+                      style: textStyle(fontSize: 30),
                     ),
-                    InkWell(onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>QrCodeSetting())),
+                    InkWell(onTap: ()=>Navigator.pushNamed(context, RoutesName.settingScreen),
                         child: Icon(Icons.settings,color: Colors.amber.shade700,)),
                   ],
                 );
@@ -81,11 +76,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           "Scan",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style: textStyle(fontSize: 22)
                         ),
                       ),
                     ),
@@ -94,11 +85,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           "Create",
-                          style: GoogleFonts.akayaTelivigala(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 22,
-                          ),
+                          style: textStyle(fontSize: 22)
                         ),
                       ),
                     ),
@@ -192,11 +179,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                       maxLines: 1,
                                                       overflow: TextOverflow.ellipsis,
                                                       list[index]["scanResult"]??'',
-                                                      style: GoogleFonts.akayaTelivigala(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 18,
-                                                      ),
+                                                      style:textStyle(fontSize: 18)
                                                     ),
                                                   ),
                                                   Spacer(),
@@ -218,10 +201,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                 children: [
                                                   Text(
                                                     "Data",
-                                                    style: GoogleFonts.akayaTelivigala(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.w300,
-                                                    ),
+                                                    style:textStyle(fontSize: 14)
                                                   ),
                                                   Spacer(),
                                                   Padding(
@@ -230,11 +210,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                     ),
                                                     child: Text(
                                                       list[index]["dateTime"]??'',
-                                                      style:
-                                                      GoogleFonts.akayaTelivigala(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w300,
-                                                      ),
+                                                      style:textStyle(fontSize: 14)
                                                     ),
                                                   ),
                                                 ],
@@ -335,11 +311,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                         overflow: TextOverflow.ellipsis,
                                                         list[index]["scanResult"]??'',
 
-                                                        style: GoogleFonts.akayaTelivigala(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.w300,
-                                                          fontSize: 18,
-                                                        ),
+                                                        style:textStyle(fontSize: 18)
                                                       ),
                                                     ),
                                                     Spacer(),
@@ -361,10 +333,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                   children: [
                                                     Text(
                                                       "Data",
-                                                      style: GoogleFonts.akayaTelivigala(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w300,
-                                                      ),
+                                                      style:textStyle(fontSize: 14)
                                                     ),
                                                     Spacer(),
                                                     Padding(
@@ -373,11 +342,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory>{
                                                       ),
                                                       child: Text(
                                                         list[index]["dateTime"]??'',
-                                                        style:
-                                                        GoogleFonts.akayaTelivigala(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.w300,
-                                                        ),
+                                                        style:textStyle(fontSize: 14)
                                                       ),
                                                     ),
                                                   ],

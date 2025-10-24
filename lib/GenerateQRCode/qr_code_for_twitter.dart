@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 
 class QrCodeForTwitter extends StatefulWidget {
   const QrCodeForTwitter({super.key});
@@ -13,11 +15,9 @@ class QrCodeForTwitter extends StatefulWidget {
 }
 
 class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
-  final userNameController = TextEditingController();
   void generateQrCode(){
-    final twitterUserName=userNameController.text.trim();
-    final input="https://twitter.com/$twitterUserName";
-    if(twitterUserName.isEmpty){
+    final input="https://twitter.com/${Controllers.twitterUserName}";
+    if(Controllers.twitterUserName.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(backgroundColor: Colors.red,
               content: Text("Please enter the user name of twitter")));
@@ -45,11 +45,7 @@ class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
               ),
               Text(
                 "Twitter",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22)
               ),
             ],
           ),
@@ -57,7 +53,7 @@ class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
           GenerateQRCodeUsingChannel(title: "Username",
               onTap:generateQrCode,
               image: "assets/images/TwitterIcon.png",
-              controller: userNameController,
+              controller: Controllers.userNameController,
               hintText: "Enter twitter username"
           )
         ],

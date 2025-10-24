@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/SplashScreens/fifth_screen.dart';
-
-import '../ReusableWidget/rounded_button.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 
 class FourthScreen extends StatefulWidget {
   const FourthScreen({super.key});
@@ -21,34 +21,29 @@ class _FourthScreenState extends State<FourthScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .22),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 90),
-                child: ClipRRect(
-                  child: Image.asset("assets/images/QRCodeImage.png"),
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * .30),
+              SizedBox(height: MediaQuery.of(context).size.height * .24),
+              Center(child: Image.asset("assets/images/QRCodeImage.png")),
+
+              SizedBox(height: MediaQuery.of(context).size.height * .24),
               Text(
                 "Go and enjoy our features for free and\n make your life easy with us.",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.akayaTelivigala(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18
-                ),
+                style:textStyle(fontSize: 18,isColor: true,color: Colors.black)
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .04),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: RoundedButton(
-                  title: "Let's Start",
-                  onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>FifthScreen()));
-                  },
-                  bgColor: Colors.black,
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
+              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              InkWell(
+                onTap: () {
+                 Navigator.pushNamed(context, RoutesName.fifthScreen);
+                },
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    Image.asset("assets/images/blackLetsStart.png"),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: Image.asset("assets/images/arrow-right.png"),
+                    ),
+                  ],
                 ),
               ),
             ],

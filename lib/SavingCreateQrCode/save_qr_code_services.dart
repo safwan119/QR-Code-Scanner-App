@@ -15,8 +15,6 @@ class SaveQrCode{
       "id":id,
       "dateTime":dateTime,
       "scanResult":qrData,
-    }).then((value){
-      FlutterToastMessage().toastMessage("save Successfully");
     }).onError((error,stackTrace){
       FlutterToastMessage().toastMessage(error.toString());
     });

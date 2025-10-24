@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 
 class QrCodeForWebsite extends StatefulWidget {
   const QrCodeForWebsite({super.key});
@@ -13,17 +15,15 @@ class QrCodeForWebsite extends StatefulWidget {
 }
 
 class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
-  final urlController = TextEditingController();
   void generateQrCode(){
-    final websiteUrl=urlController.text.trim();
-    final input=websiteUrl;
-    if(websiteUrl.isEmpty){
+    final websiteUrlLink=Controllers.websiteUrl;
+    if(Controllers.websiteUrl.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(backgroundColor: Colors.red,
               content: Text("Please enter the website url")));
       return;
     }
-    final qrData=input;
+    final qrData=websiteUrlLink;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
     Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
@@ -45,11 +45,7 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
               ),
               Text(
                 "Website",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22),
               ),
             ],
           ),
@@ -57,7 +53,7 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
           GenerateQRCodeUsingChannel(title: "Website Url",
               onTap: generateQrCode,
               image: "assets/images/WebsiteIcon.png",
-              controller: urlController,
+              controller: Controllers.urlController,
               hintText: "Enter www.qrcode.com"
           )
         ],

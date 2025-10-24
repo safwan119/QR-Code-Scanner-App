@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
-import 'package:qr_code_scanner/Result/qr_code_result.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
+import '../constants/text_style.dart';
 class QrCodeForText extends StatefulWidget {
   const QrCodeForText({super.key});
 
@@ -12,16 +12,13 @@ class QrCodeForText extends StatefulWidget {
 }
 
 class _QrCodeForTextState extends State<QrCodeForText> {
-  final textController = TextEditingController();
   @override
   void dispose() {
-    textController.dispose();
+    Controllers.textController.dispose();
     super.dispose();
   }
   void generateQrCode() {
-    final input = textController.text.trim();
-
-    if (input.isEmpty) {
+    if (Controllers.textName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please enter some text to generate the QR code."),
@@ -30,7 +27,7 @@ class _QrCodeForTextState extends State<QrCodeForText> {
       );
       return;
     }
-    final qrData = input;
+    final qrData =Controllers.textName;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
     Navigator.push(
@@ -57,11 +54,7 @@ class _QrCodeForTextState extends State<QrCodeForText> {
               ),
               Text(
                 "Text",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22)
               ),
             ],
           ),
@@ -69,7 +62,7 @@ class _QrCodeForTextState extends State<QrCodeForText> {
           GenerateQRCodeUsingChannel(title: "Text",
               onTap: generateQrCode,
               image: "assets/images/TextIcon.png",
-              controller: textController,
+              controller: Controllers.textController,
               hintText: "Enter text"
           )
         ],

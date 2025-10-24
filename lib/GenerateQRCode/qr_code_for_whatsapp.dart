@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/ReusableWidget/generate_qr_code_using_channel.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 class QrCodeForWhatsapp extends StatefulWidget {
   const QrCodeForWhatsapp({super.key});
 
@@ -12,9 +14,8 @@ class QrCodeForWhatsapp extends StatefulWidget {
 }
 
 class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
-  final whatsappNumberController=TextEditingController();
   void generateQrCode(){
-    var whatsappNumber=whatsappNumberController.text.trim();
+    var whatsappNumber=Controllers.whatsappNumberController.text.trim();
     final input="http://wa.me/$whatsappNumber";
     if(whatsappNumber.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -50,11 +51,7 @@ class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
               ),
               Text(
                 "Whatsapp",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22)
               ),
             ],
           ),
@@ -62,7 +59,7 @@ class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
           GenerateQRCodeUsingChannel(title: "Whatsapp Number",
               onTap:generateQrCode,
               image: "assets/images/WhatsappIcon.png",
-              controller: whatsappNumberController,
+              controller: Controllers.whatsappNumberController,
               hintText: "Enter number"
           )
         ],

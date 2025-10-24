@@ -15,10 +15,7 @@ class SplashScreenWidget extends StatelessWidget {
     return Container(
       color: bgColor,
       child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 90),
-          child: ClipRRect(child: Image.asset(image)),
-        ),
+        child: Image.asset(image),
       ),
     );
   }

@@ -22,14 +22,12 @@ class _FirstScreenState extends State<FirstScreen> {
       );
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SplashScreenWidget(
-        image: "assets/images/FirstQRCodePic.png",
-        bgColor: Colors.black,
+        image: "assets/images/blackPic.png",
+        bgColor: Colors.black87,
       ),
     );
   }

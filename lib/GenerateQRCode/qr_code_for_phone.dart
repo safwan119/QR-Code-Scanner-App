@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../constants/controllers.dart';
 
 class QrCodeForPhone extends StatefulWidget {
   const QrCodeForPhone({super.key});
@@ -13,12 +14,10 @@ class QrCodeForPhone extends StatefulWidget {
 }
 
 class _QrCodeForPhoneState extends State<QrCodeForPhone> {
-  final phoneNumberController = TextEditingController();
   void generateQrCode(){
-    final phoneNumber=phoneNumberController.text.trim();
-    final cleanNumber = phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
+    final cleanNumber = Controllers.phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
     final input="tel:$cleanNumber";
-    if(phoneNumber.isEmpty){
+    if(Controllers.phoneNumber.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(backgroundColor: Colors.red,
               content: Text("Please your phone number")));
@@ -46,11 +45,7 @@ class _QrCodeForPhoneState extends State<QrCodeForPhone> {
               ),
               Text(
                 "Phone",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 22,
-                ),
+                style:textStyle(fontSize: 22)
               ),
             ],
           ),
@@ -58,7 +53,7 @@ class _QrCodeForPhoneState extends State<QrCodeForPhone> {
           GenerateQRCodeUsingChannel(title: "Phone Number",
               onTap:generateQrCode,
               image: "assets/images/PhoneIcon.png",
-              controller: phoneNumberController,
+              controller: Controllers.phoneController,
               hintText: "+92xxxxxxxxx"
           )
         ],

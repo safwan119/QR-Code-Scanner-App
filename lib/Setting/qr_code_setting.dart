@@ -4,10 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating/flutter_rating.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/Message/flutter_toast_message.dart';
 import 'package:qr_code_scanner/SharedPreference/user_id_services.dart';
+import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,13 +21,14 @@ class QrCodeSetting extends StatefulWidget {
 class _QrCodeSettingState extends State<QrCodeSetting> {
   final firebaseDatabaseReference=FirebaseDatabase.instance.ref("Rating");
   final dbRef=FirebaseDatabase.instance.ref("Switch");
-  bool vibrateSwitch = true;
-  bool beepSwitch = false;
-  final double _rating=0.0;
+  bool vibrateSwitch = false;
+  bool beepSwitch = true;
+  late double _rating=0.0;
   @override
   void initState(){
     super.initState();
     switchStoringData();
+    ratingDataStore();
   }
   Future<void> switchStoringData() async {
     UserIdServices userIdServices=UserIdServices();
@@ -41,6 +42,26 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
          });
        }
      });
+
+  }
+  Future<void> ratingDataStore() async {
+    UserIdServices userIdServices=UserIdServices();
+    final deviceId=await userIdServices.getOrCreateUserId();
+    await firebaseDatabaseReference.child(deviceId).once().then((snapshot){
+      final data = snapshot.snapshot.value as Map?;
+      if(data!=null){
+        final dynamic ratingValue = data["rating"];
+
+        setState(() {
+          if (ratingValue is num) {
+            _rating = ratingValue.toDouble();
+          } else {
+            _rating = 0.0;
+          }
+        });
+        print("The rating in this id is :$_rating");
+      }
+    });
 
   }
   Future<void> shareApkFile(BuildContext context) async {
@@ -85,11 +106,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Setting",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.amber.shade600,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 30,
-                ),
+                style:textStyle(fontSize: 30,isColor: true,color: Colors.amber.shade600)
               ),
             ),
             SizedBox(height: 20,),
@@ -182,11 +199,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "Support",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.amber.shade600,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 30,
-                ),
+                style:textStyle(fontSize: 30,color: Colors.amber.shade600,isColor: true)
               ),
             ),
             SizedBox(height: 20,),
