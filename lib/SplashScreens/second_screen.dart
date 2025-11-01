@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/ReusableWidget/splash_screen_widget.dart';
-import 'package:qr_code_scanner/SplashScreens/third_screen.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -16,10 +17,7 @@ class _SecondScreenState extends State<SecondScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ThirdScreen()),
-      );
+      Get.offAllNamed(RoutesName.thirdScreen);
     });
   }
 

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
 import 'package:qr_code_scanner/constants/launch_qr_data.dart';
 import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 class QrCodeResult extends StatelessWidget {
-  final String qrData;
-   QrCodeResult(this.qrData, {super.key});
+  final String qrData=Get.arguments;
+   QrCodeResult({super.key});
   late final String shareMessage = 'Qr Code data is: $qrData';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +20,9 @@ class QrCodeResult extends StatelessWidget {
           Row(
             children: [
               InkWell(onTap: (){
-                Navigator.pop(context);
+                Get.back();
               },
-                  child: Image.asset("assets/images/ArrowBackPic.png")),
+                  child: Image.asset(ImagePath.arrowBackImage)),
               Text(
                 "Result",
                 style:textStyle(fontSize: 22)
@@ -38,7 +40,7 @@ class QrCodeResult extends StatelessWidget {
                     SizedBox(height: 10),
                     Row(
                       children: [
-                        Image.asset("assets/images/QRCodeDataPic.png"),
+                        Image.asset(ImagePath.qrCodeDataImage),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .04,
                         ),
@@ -71,7 +73,7 @@ class QrCodeResult extends StatelessWidget {
                     SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+                       Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
                       },
                       child: Text(
                         "Show QR Code",

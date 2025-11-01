@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/SavingCreateQrCode/save_qr_code_services.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../ReusableWidget/generate_button.dart';
 import '../constants/controllers.dart';
+import '../route/routes_name.dart';
 
 class QrCodeForWifi extends StatefulWidget {
   const QrCodeForWifi({super.key});
@@ -23,15 +26,13 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
   void generateQrCode(){
     final input="WIFI:S:${Controllers.networkName};T:WPA;P:${Controllers.password};H:false;";
     if(Controllers.networkName.isEmpty || Controllers.password.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,
-              content: Text("Please complete the required fields")));
+     ShortMessage.showErrorMessage("Please complete the required fields");
       return;
     }
     final qrData=input;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
   @override
   Widget build(BuildContext context) {
@@ -44,9 +45,9 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
-                  child: Image.asset("assets/images/ArrowBackPic.png"),
+                  child: Image.asset(ImagePath.arrowBackImage),
                 ),
                 Text(
                   "Wi-Fi",

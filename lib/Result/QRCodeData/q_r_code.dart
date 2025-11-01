@@ -1,17 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 import 'package:qr_flutter/qr_flutter.dart' as qrflutter;
 
 import '../../constants/public_data.dart';
 
 class QRCode extends StatefulWidget {
-  final String qrData;
 
-  const QRCode(this.qrData, {super.key});
+
+  QRCode({super.key});
+  final String qrData=Get.arguments;
 
   @override
   State<QRCode> createState() => _QRCodeState();
@@ -30,9 +33,9 @@ class _QRCodeState extends State<QRCode> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
-                  child: Image.asset("assets/images/ArrowBackPic.png"),
+                  child: Image.asset(ImagePath.arrowBackImage),
                 ),
                 Text(
                   "QR Code",

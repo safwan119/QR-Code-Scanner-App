@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_code_scanner/SplashScreens/fifth_screen.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -33,7 +32,7 @@ class _FourthScreenState extends State<FourthScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * .03),
               InkWell(
                 onTap: () {
-                 Navigator.pushNamed(context, RoutesName.fifthScreen);
+                 Get.toNamed(RoutesName.fifthScreen);
                 },
                 child: Stack(
                   alignment: Alignment.centerRight,

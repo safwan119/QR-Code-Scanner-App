@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
-import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
+import '../route/routes_name.dart';
 
 class QrCodeForWebsite extends StatefulWidget {
   const QrCodeForWebsite({super.key});
@@ -18,15 +20,13 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
   void generateQrCode(){
     final websiteUrlLink=Controllers.websiteUrl;
     if(Controllers.websiteUrl.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,
-              content: Text("Please enter the website url")));
+     ShortMessage.showErrorMessage("Please enter the website url");
       return;
     }
     final qrData=websiteUrlLink;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
 
   @override
@@ -39,9 +39,9 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
-                child: Image.asset("assets/images/ArrowBackPic.png"),
+                child: Image.asset(ImagePath.arrowBackImage),
               ),
               Text(
                 "Website",

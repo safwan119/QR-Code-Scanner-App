@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:qr_code_scanner/Keys/one_signal_keys.dart';
-import 'package:qr_code_scanner/Message/flutter_toast_message.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
 
 class NotificationServices {
   String url = "https://onesignal.com/api/v1/notifications";
@@ -25,9 +24,9 @@ class NotificationServices {
           "android_channel_id": "278123b7-4cd3-48fe-9ac7-021d8e93de38",
         }),
       ).then((value){
-        FlutterToastMessage().toastMessage("Message Sent Successfully");
+       ShortMessage.showSuccessMessage("Message Sent Successfully");
       }).onError((error,stackTrace){
-        FlutterToastMessage().toastMessage("Server issue:$e");
+        ShortMessage.showErrorMessage("Error:$error");
       });
 
       if (response.statusCode == 200) {

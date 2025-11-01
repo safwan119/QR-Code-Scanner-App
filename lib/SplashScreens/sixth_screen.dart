@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_code_scanner/SplashScreens/seventh_screen.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -73,7 +72,7 @@ class _SixthScreenState extends State<SixthScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height * .03),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, RoutesName.seventhScreen);
+                        Get.toNamed(RoutesName.seventhScreen);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.amber.shade600,

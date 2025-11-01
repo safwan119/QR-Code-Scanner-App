@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/qr_code_outputs.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_button.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
+import '../route/routes_name.dart';
 
 class QrCodeForContact extends StatefulWidget {
   const QrCodeForContact({super.key});
@@ -26,17 +30,13 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
         Controllers.cityName.isEmpty ||
         Controllers.countryName.isEmpty
     ) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: Colors.red,
-          content: Text("Please fill all fields for generating qr code"),
-        ),
-      );
+      ShortMessage.showErrorMessage("Please fill all fields for generating qr code");
       return;
     }
     final qrData=QrCodeOutputs.contactDetailOutputs;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,9 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
-                  child: Image.asset("assets/images/ArrowBackPic.png"),
+                  child: Image.asset(ImagePath.arrowBackImage),
                 ),
                 Text(
                   "Contact",

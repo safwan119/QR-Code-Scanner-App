@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/ReusableWidget/generate_qr_code_using_channel.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
-import '../Result/QRCodeData/q_r_code.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
+import '../route/routes_name.dart';
 class QrCodeForWhatsapp extends StatefulWidget {
   const QrCodeForWhatsapp({super.key});
 
@@ -18,9 +20,7 @@ class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
     var whatsappNumber=Controllers.whatsappNumberController.text.trim();
     final input="http://wa.me/$whatsappNumber";
     if(whatsappNumber.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,
-              content: Text("Please enter your whatsapp number")));
+     ShortMessage.showErrorMessage("Please enter your whatsapp number");
       return;
     }
     if (whatsappNumber.startsWith('+')) {
@@ -33,7 +33,7 @@ class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
     final qrData=input;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
   @override
   Widget build(BuildContext context) {
@@ -45,9 +45,9 @@ class _QrCodeForWhatsappState extends State<QrCodeForWhatsapp> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
-                child: Image.asset("assets/images/ArrowBackPic.png"),
+                child: Image.asset(ImagePath.arrowBackImage),
               ),
               Text(
                 "Whatsapp",

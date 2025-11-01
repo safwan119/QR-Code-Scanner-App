@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/SplashScreens/tenth_screen.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 
 class NinthScreen extends StatefulWidget {
   const NinthScreen({super.key});
@@ -24,11 +26,7 @@ class _NinthScreenState extends State<NinthScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * .08),
               Text(
                 "Get Started",
-                style: GoogleFonts.akayaTelivigala(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 30,
-                ),
+                style: textStyle(fontSize: 30,isColor: true,color: Colors.black),
               ),
               Text(
                 "Go and enjoy our features for free and\n make your life easy with us.",
@@ -38,10 +36,7 @@ class _NinthScreenState extends State<NinthScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * .03),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TenthScreen()),
-                  );
+                  Get.toNamed(RoutesName.tenthScreen);
                 },
                 child: Stack(
                   alignment: Alignment.centerRight,

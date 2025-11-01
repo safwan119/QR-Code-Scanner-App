@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_contact.dart';
 import 'package:qr_code_scanner/constants/controllers.dart';
 import 'package:qr_code_scanner/constants/qr_code_outputs.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_button.dart';
@@ -33,20 +37,13 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
         Controllers.emailAddress.isEmpty ||
         Controllers.address.isEmpty ||
         Controllers.cityName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: Colors.red,
-          content: Text("Please fill all fields for generating qr code"),
-        ),
-      );
+     ShortMessage.showErrorMessage("Please fill all fields for generating qr code");
       return;
     }
     final qrData = QrCodeOutputs.businessDetailOutput;
     SaveQrCode saveQrCode = SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => QRCode(qrData)),
-    );
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
 
   @override
@@ -60,9 +57,9 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
-                  child: Image.asset("assets/images/ArrowBackPic.png"),
+                  child: Image.asset(ImagePath.arrowBackImage),
                 ),
                 Text("Business", style: textStyle(fontSize: 22)),
               ],

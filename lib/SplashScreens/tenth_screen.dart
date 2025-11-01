@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 class TenthScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _TenthScreenState extends State<TenthScreen> {
                     padding: const EdgeInsets.only(right: 10,left: 0),
                     child: InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, RoutesName.eleventhScreen);
+                        Get.toNamed(RoutesName.eleventhScreen);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.amber.shade600,

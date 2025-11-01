@@ -1,10 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/state/device_id_provider.dart';
-
-import '../Message/flutter_toast_message.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/controllers/user_id_controller.dart';
 import '../SharedPreference/user_id_services.dart';
 
 class SaveQrCode{
@@ -20,15 +19,15 @@ class SaveQrCode{
       "dateTime":dateTime,
       "scanResult":qrData,
     }).onError((error,stackTrace){
-      FlutterToastMessage().toastMessage(error.toString());
+      ShortMessage.showErrorMessage(error.toString());
     });
 
   }
   static Future<void> saveScanDataResultToDatabase(String scanResult,BuildContext context) async {
-    final idProvider=Provider.of<DeviceIdProvider>(context);
-    await idProvider.initializeDeviceId();
+    final userId=Get.find<UserIdController>();
+    await userId.initializeDeviceId();
     final id = DateTime.now().millisecondsSinceEpoch.toString();
-    databaseReference.child(idProvider.deviceId).child(id).set({
+    databaseReference.child(userId.deviceId.value).child(id).set({
       "id": id,
       "dateTime": dateTime,
       "scanResult": scanResult,

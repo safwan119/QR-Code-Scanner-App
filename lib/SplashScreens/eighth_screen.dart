@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -100,7 +101,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         .size
                         .height * .03,
                   ),
-                  InkWell(onTap: ()=>Navigator.pushNamed(context, RoutesName.ninthScreen),
+                  InkWell(onTap: ()=>Get.toNamed(RoutesName.ninthScreen),
                       child: Image.asset("assets/images/amberLetsStart.png")),
                   SizedBox(
                     height: MediaQuery

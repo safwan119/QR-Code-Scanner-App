@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -60,7 +61,7 @@ class _FifthScreenState extends State<FifthScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * .05),
                     InkWell(onTap: (){
-                        Navigator.pushNamed(context, RoutesName.sixthScreen);
+                        Get.toNamed(RoutesName.sixthScreen);
                       },
                           child: Image.asset("assets/images/letsGo.png")),
                     SizedBox(height: MediaQuery.of(context).size.height * .10),

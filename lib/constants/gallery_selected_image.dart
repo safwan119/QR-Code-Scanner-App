@@ -2,36 +2,34 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-
-import '../Message/flutter_toast_message.dart';
-import '../Result/qr_code_result.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/controllers/gallery_image_controller.dart';
+import 'package:qr_code_scanner/presentation/controllers/qr_camera_controller.dart';
+import 'package:qr_code_scanner/route/routes_name.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
-import '../state/camera_control_provider.dart';
-import '../state/gallery_image_provider.dart';
 import 'controllers.dart';
+import 'package:get/get.dart';
 
 class GallerySelectedImage {
   static final picker = ImagePicker();
 
- static Future<void> scanFromGalleryImageAndUpload(BuildContext context) async {
-    final galleryImageProvider = Provider.of<GalleryImageProvider>(
-      context,
-      listen: false,
-    );
+  static Future<void> scanFromGalleryImageAndUpload(
+    BuildContext context,
+  ) async {
+    final imageController = Get.find<GalleryImageController>();
     final imagePicker = await picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
     );
 
     if (imagePicker == null) {
-      FlutterToastMessage().toastMessage("No image selected from gallery");
+      ShortMessage.showErrorMessage("No image selected from gallery");
       return;
     }
 
     File selectedFile = File(imagePicker.path);
     Controllers.scannerController.stop();
-    galleryImageProvider.setImage(selectedFile);
+    imageController.setImage(selectedFile);
     final capture = await Controllers.scannerController.analyzeImage(
       selectedFile.path,
     );
@@ -40,36 +38,23 @@ class GallerySelectedImage {
       scannedCode = capture.barcodes.first.rawValue;
     }
     if (scannedCode != null) {
-      galleryImageProvider.setQrLink(scannedCode);
+      imageController.setQrLink(scannedCode);
       if (context.mounted) {
         SaveQrCode.saveScanDataResultToDatabase(
-          galleryImageProvider.qrCodeLink!,
+          imageController.qrCodeLink.value,
           context,
         );
-        final soundProvider = Provider.of<CameraControlProvider>(
-          context,
-          listen: false,
-        );
-        soundProvider.soundEffectOnCapturingQrCode();
-        await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) =>
-                QrCodeResult(galleryImageProvider.qrCodeLink!),
-          ),
-        );
+        final soundController = Get.find<QrCameraController>();
+        soundController.soundEffectOnCapturingQrCode();
+        await Get.toNamed(RoutesName.resultScreen,arguments: imageController.qrCodeLink.value);
         if (context.mounted) {
-          galleryImageProvider.setNull();
+          imageController.setNull();
           Controllers.scannerController.start();
         }
       }
     } else {
-      galleryImageProvider.setImageNull();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('No QR Code found in the image.'),
-        ),
-      );
+      imageController.setImageNull();
+      ShortMessage.showErrorMessage('No QR Code found in the image.');
       Controllers.scannerController.start();
     }
   }

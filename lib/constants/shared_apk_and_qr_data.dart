@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -9,8 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/constants/public_data.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
 import 'package:share_plus/share_plus.dart';
-class SharedApkAndQrData{
+
+class SharedApkAndQrData {
   static Future<void> shareApkFile(BuildContext context) async {
     String fileName = 'app-release.apk';
     final tempDir = await getTemporaryDirectory();
@@ -39,24 +40,21 @@ class SharedApkAndQrData{
     }
   }
 
- static  String? shareQrDataAsText(String qrData) {
+  static String? shareQrDataAsText(String qrData) {
     SharePlus.instance.share(
-        ShareParams(
-          text:'Qr Code data is: $qrData',
-          subject: 'My QR Code Link',
-        )
+      ShareParams(text: 'Qr Code data is: $qrData', subject: 'My QR Code Link'),
     );
     return null;
   }
 
- static  void copyQrDataToClipboard(String qrData) {
+  static void copyQrDataToClipboard(String qrData) {
     Clipboard.setData(ClipboardData(text: qrData));
   }
 
   static Future<Uint8List?> captureQrCodeAsImage() async {
     try {
       final boundary =
-      qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+          qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData?.buffer.asUint8List();
@@ -86,9 +84,7 @@ class SharedApkAndQrData{
   static void saveQrCodeImageToGallery(BuildContext context) async {
     final bytes = await captureQrCodeAsImage();
     if (bytes == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error: QR code image capture failed.")),
-      );
+      ShortMessage.showErrorMessage("Error: QR code image capture failed.");
       return;
     }
     final result = await ImageGallerySaverPlus.saveImage(
@@ -97,16 +93,12 @@ class SharedApkAndQrData{
       name: "QR_Code_${DateTime.now().millisecondsSinceEpoch}",
     );
     if (result != null && result['isSuccess']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("✅ QR Code saved successfully to Gallery!"),
-        ),
+      ShortMessage.showSuccessMessage(
+        "✅ QR Code saved successfully to Gallery!",
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("❌ Failed to save QR Code. Check permissions."),
-        ),
+      ShortMessage.showErrorMessage(
+        "❌ Failed to save QR Code. Check permissions.",
       );
     }
   }

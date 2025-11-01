@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
+import '../route/routes_name.dart';
 
 class QrCodeForEmail extends StatefulWidget {
   const QrCodeForEmail({super.key});
@@ -22,15 +26,13 @@ class _QrCodeForEmailState extends State<QrCodeForEmail> {
   void generateQrCode(){
     final emailInput="mailto:${Controllers.emailAddress}";
     if(Controllers.emailAddress.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,
-              content: Text("Please enter email address")));
+      ShortMessage.showErrorMessage("Please fill email address");
       return;
     }
     final qrData=emailInput;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRCode(qrData)));
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
 
   @override
@@ -43,9 +45,9 @@ class _QrCodeForEmailState extends State<QrCodeForEmail> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
-                child: Image.asset("assets/images/ArrowBackPic.png"),
+                child: Image.asset(ImagePath.arrowBackImage),
               ),
               Text(
                 "Email",

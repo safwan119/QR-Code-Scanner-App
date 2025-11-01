@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/Result/QRCodeData/q_r_code.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
 import '../constants/text_style.dart';
+import '../route/routes_name.dart';
 class QrCodeForText extends StatefulWidget {
   const QrCodeForText({super.key});
 
@@ -19,23 +22,13 @@ class _QrCodeForTextState extends State<QrCodeForText> {
   }
   void generateQrCode() {
     if (Controllers.textName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please enter some text to generate the QR code."),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ShortMessage.showErrorMessage("Please enter some text to generate the QR code.");
       return;
     }
     final qrData =Controllers.textName;
     SaveQrCode saveQrCode=SaveQrCode();
     saveQrCode.saveQrCodeData(qrData);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => QRCode(qrData),
-      ),
-    );
+    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
 
   @override
@@ -48,9 +41,9 @@ class _QrCodeForTextState extends State<QrCodeForText> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
-                child: Image.asset("assets/images/ArrowBackPic.png"),
+                child: Image.asset(ImagePath.arrowBackImage),
               ),
               Text(
                 "Text",
