@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_contact.dart';
 import 'package:qr_code_scanner/constants/controllers.dart';
-import 'package:qr_code_scanner/constants/qr_code_outputs.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/presentation/controllers/generate_qr_controllers/business_controller.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
-import 'package:qr_code_scanner/route/routes_name.dart';
 
-import '../Result/QRCodeData/q_r_code.dart';
 import '../ReusableWidget/generate_button.dart';
-import '../SavingCreateQrCode/save_qr_code_services.dart';
+import '../core/util/validators.dart';
 
 class QrCodeForBusiness extends StatefulWidget {
   const QrCodeForBusiness({super.key});
@@ -22,32 +19,18 @@ class QrCodeForBusiness extends StatefulWidget {
 class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
   @override
   void dispose() {
-   Controllers.countryController.dispose();
-   Controllers.industryController.dispose();
-   Controllers.phoneController.dispose();
-   Controllers.emailController.dispose();
-   Controllers.addressController.dispose();
-   Controllers.cityController.dispose();
+    Controllers.countryController.dispose();
+    Controllers.industryController.dispose();
+    Controllers.phoneController.dispose();
+    Controllers.emailController.dispose();
+    Controllers.addressController.dispose();
+    Controllers.cityController.dispose();
     super.dispose();
-  }
-  void generateQrCode() {
-    if (Controllers.countryName.isEmpty ||
-        Controllers.industryName.isEmpty ||
-        Controllers.phoneNumber.isEmpty ||
-        Controllers.emailAddress.isEmpty ||
-        Controllers.address.isEmpty ||
-        Controllers.cityName.isEmpty) {
-     ShortMessage.showErrorMessage("Please fill all fields for generating qr code");
-      return;
-    }
-    final qrData = QrCodeOutputs.businessDetailOutput;
-    SaveQrCode saveQrCode = SaveQrCode();
-    saveQrCode.saveQrCodeData(qrData);
-    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
   }
 
   @override
   Widget build(BuildContext context) {
+    final businessController = Get.find<BusinessController>();
     return Scaffold(
       backgroundColor: Colors.white12,
       body: SingleChildScrollView(
@@ -100,7 +83,8 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       SizedBox(height: 10),
                       TextFormFieldReusableWidget(
                         hintText: "Enter name",
-                        controller:Controllers.companyController,
+                        validator: Validation.textValidation("Company Name"),
+                        controller: Controllers.companyController,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .04,
@@ -112,6 +96,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       SizedBox(height: 10),
                       TextFormFieldReusableWidget(
                         hintText: "e.g Food/Agency",
+                        validator: Validation.textValidation("Industry Name"),
                         controller: Controllers.industryController,
                       ),
 
@@ -134,6 +119,9 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                 SizedBox(height: 10),
                                 TextFormFieldReusableWidget(
                                   hintText: "Enter phone",
+                                  validator: Validation.phoneNumberValidity(
+                                    "Phone Number",
+                                  ),
                                   controller: Controllers.phoneController,
                                 ),
                               ],
@@ -153,6 +141,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                 SizedBox(height: 10),
                                 TextFormFieldReusableWidget(
                                   hintText: "Enter email",
+                                  validator: Validation.emailValidity("Email"),
                                   controller: Controllers.emailController,
                                 ),
                               ],
@@ -169,6 +158,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       ),
                       TextFormFieldReusableWidget(
                         hintText: "Enter website",
+                        validator: Validation.websiteUrlValidity("Website Url"),
                         controller: Controllers.websiteController,
                       ),
                       SizedBox(
@@ -181,6 +171,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       TextFormFieldReusableWidget(
                         hintText: "Enter address",
                         controller: Controllers.addressController,
+                        validator: Validation.textValidation("Address"),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .04,
@@ -201,6 +192,9 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                 SizedBox(height: 10),
                                 TextFormFieldReusableWidget(
                                   hintText: "Enter city",
+                                  validator: Validation.textValidation(
+                                    "City Name",
+                                  ),
                                   controller: Controllers.cityController,
                                 ),
                               ],
@@ -220,6 +214,9 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                 SizedBox(height: 10),
                                 TextFormFieldReusableWidget(
                                   hintText: "Enter Country",
+                                  validator: Validation.textValidation(
+                                    "Country Name",
+                                  ),
                                   controller: Controllers.countryController,
                                 ),
                               ],
@@ -232,7 +229,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       ),
                       GenerateButton(
                         title: "Generate QR Code",
-                        onTap: generateQrCode,
+                        onTap: businessController.generateBusinessQr,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .03,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_scanner/SavingCreateQrCode/save_qr_code_services.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/core/util/validators.dart';
+import 'package:qr_code_scanner/presentation/controllers/generate_qr_controllers/wifi_controller.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../ReusableWidget/generate_button.dart';
 import '../constants/controllers.dart';
-import '../route/routes_name.dart';
 
 class QrCodeForWifi extends StatefulWidget {
   const QrCodeForWifi({super.key});
@@ -23,19 +22,10 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
     Controllers.passwordController.dispose();
     super.dispose();
   }
-  void generateQrCode(){
-    final input="WIFI:S:${Controllers.networkName};T:WPA;P:${Controllers.password};H:false;";
-    if(Controllers.networkName.isEmpty || Controllers.password.isEmpty){
-     ShortMessage.showErrorMessage("Please complete the required fields");
-      return;
-    }
-    final qrData=input;
-    SaveQrCode saveQrCode=SaveQrCode();
-    saveQrCode.saveQrCodeData(qrData);
-    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
-  }
+
   @override
   Widget build(BuildContext context) {
+    final wifiController = Get.find<WifiController>();
     return Scaffold(
       backgroundColor: Colors.white12,
       body: SingleChildScrollView(
@@ -49,10 +39,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                   },
                   child: Image.asset(ImagePath.arrowBackImage),
                 ),
-                Text(
-                  "Wi-Fi",
-                  style:textStyle(fontSize: 22)
-                ),
+                Text("Wi-Fi", style: textStyle(fontSize: 22)),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .13),
@@ -72,19 +59,21 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.height * .03),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .03,
+                      ),
                       Center(child: Image.asset("assets/images/WifiIcon.png")),
-                      SizedBox(height: MediaQuery.of(context).size.height * .03),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .03,
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Network",
-                          style:textStyle(fontSize: 22)
-                        ),
+                        child: Text("Network", style: textStyle(fontSize: 22)),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
                         controller: Controllers.networkNameController,
+                        validator: Validation.textValidation("NetworkName"),
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: "Enter network name",
@@ -93,18 +82,22 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                           ),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * .02),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .02,
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Password",
-                          style:textStyle(fontSize: 22)
-                        ),
+                        child: Text("Password", style: textStyle(fontSize: 22)),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
                         controller: Controllers.passwordController,
                         style: TextStyle(color: Colors.white),
+                        validator: Validation.wifiPasswordLengthValidation(
+                          "Wifi Password",
+                          8,
+                          maxLength: 12,
+                        ),
                         decoration: InputDecoration(
                           hintText: "Enter password",
                           border: OutlineInputBorder(
@@ -112,14 +105,20 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                           ),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * .03),
-                      GenerateButton(title: "Generate QR Code", onTap: generateQrCode,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .03,
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * .03),
+                      GenerateButton(
+                        title: "Generate QR Code",
+                        onTap: wifiController.generateWifiQr,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .03,
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
             ),
           ],
         ),

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:qr_code_scanner/core/util/validators.dart';
+import 'package:qr_code_scanner/presentation/controllers/generate_qr_controllers/instagram_twitter_controller.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
-import '../SavingCreateQrCode/save_qr_code_services.dart';
 import '../constants/controllers.dart';
-import '../route/routes_name.dart';
 
 class QrCodeForTwitter extends StatefulWidget {
   const QrCodeForTwitter({super.key});
@@ -17,20 +16,9 @@ class QrCodeForTwitter extends StatefulWidget {
 }
 
 class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
-  void generateQrCode(){
-    final input="https://twitter.com/${Controllers.twitterUserName}";
-    if(Controllers.twitterUserName.isEmpty){
-     ShortMessage.showErrorMessage("Please enter the user name of twitter");
-      return;
-    }
-    final qrData=input;
-    SaveQrCode saveQrCode=SaveQrCode();
-    saveQrCode.saveQrCodeData(qrData);
-    Get.toNamed(RoutesName.qrCodeScreen,arguments: qrData);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final usernameController = Get.find<InstagramTwitterController>();
     return Scaffold(
       backgroundColor: Colors.white12,
       body: Column(
@@ -43,19 +31,18 @@ class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
                 },
                 child: Image.asset(ImagePath.arrowBackImage),
               ),
-              Text(
-                "Twitter",
-                style:textStyle(fontSize: 22)
-              ),
+              Text("Twitter", style: textStyle(fontSize: 22)),
             ],
           ),
           SizedBox(height: MediaQuery.of(context).size.height * .13),
-          GenerateQRCodeUsingChannel(title: "Username",
-              onTap:generateQrCode,
-              image: "assets/images/TwitterIcon.png",
-              controller: Controllers.userNameController,
-              hintText: "Enter twitter username"
-          )
+          GenerateQRCodeUsingChannel(
+            title: "Username",
+            onTap: usernameController.twitterUserQr,
+            validator: Validation.usernameValidity("Twitter UserName"),
+            image: "assets/images/TwitterIcon.png",
+            controller: Controllers.twitterController,
+            hintText: "Enter twitter username",
+          ),
         ],
       ),
     );

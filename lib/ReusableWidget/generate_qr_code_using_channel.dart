@@ -8,7 +8,8 @@ class GenerateQRCodeUsingChannel extends StatefulWidget {
   final VoidCallback onTap;
   final String image;
   final String hintText;
-  const GenerateQRCodeUsingChannel({super.key, required this.title,required this.onTap,required this.image,required this.controller,required this.hintText});
+  final String? Function(String?)? validator;
+  const GenerateQRCodeUsingChannel({super.key,this.validator, required this.title,required this.onTap,required this.image,required this.controller,required this.hintText});
 
   @override
   State<GenerateQRCodeUsingChannel> createState() => _GenerateQRCodeUsingChannelState();
@@ -50,6 +51,7 @@ class _GenerateQRCodeUsingChannelState extends State<GenerateQRCodeUsingChannel>
               SizedBox(height: 10),
               TextFormField(
                 controller: widget.controller,
+                validator:widget.validator,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: widget.hintText,
