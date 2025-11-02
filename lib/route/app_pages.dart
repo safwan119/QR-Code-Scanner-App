@@ -4,6 +4,7 @@ import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_email.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_event.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_instagram.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_location.dart';
+import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_phone.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_text.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_twitter.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_website.dart';
@@ -46,6 +47,7 @@ class AppPages {
     GetPage(name: RoutesName.tenthScreen, page: () => TenthScreen()),
     GetPage(name: RoutesName.eleventhScreen, page: () => EleventhScreen()),
     GetPage(name: RoutesName.settingScreen, page: () => QrCodeSetting()),
+    GetPage(name: RoutesName.phoneScreen, page: () => QrCodeForPhone()),
     GetPage(name: RoutesName.historyScreen, page: () => QrCodeHistory()),
     GetPage(name: RoutesName.generateScreen, page: () => GenerateQrCode()),
     GetPage(name: RoutesName.emailScreen, page: () => QrCodeForEmail()),
