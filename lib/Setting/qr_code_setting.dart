@@ -84,7 +84,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                   trailing:
                   Obx(()=>Switch(
-                    activeThumbColor: Colors.amber.shade600,
+                    activeColor: Colors.amber.shade600,
                     value:settingController.vibrateSwitch.value,
                     onChanged: (value) async {
                       settingController.setVibrateSwitch(value);
@@ -122,7 +122,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                     style: TextStyle(color: Colors.white),
                   ),
                   trailing: Obx(()=>Switch(
-                    activeThumbColor: Colors.amber.shade600,
+                    activeColor: Colors.amber.shade600,
                     value:settingController.beepSwitch.value,
                     onChanged: (value) async {
                       settingController.setBeepSwitch(value);
