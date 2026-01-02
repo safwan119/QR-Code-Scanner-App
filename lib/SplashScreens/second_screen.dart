@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/ReusableWidget/splash_screen_widget.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -17,7 +16,7 @@ class _SecondScreenState extends State<SecondScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Get.offAllNamed(RoutesName.thirdScreen);
+      Navigator.pushNamed(context, RoutesName.eleventhScreen);
     });
   }
 

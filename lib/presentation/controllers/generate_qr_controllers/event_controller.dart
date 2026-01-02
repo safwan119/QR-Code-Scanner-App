@@ -1,30 +1,31 @@
-import 'package:get/get.dart';
-import 'package:qr_code_scanner/constants/controllers.dart';
-import 'package:qr_code_scanner/core/util/short_message.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_code_scanner/core/util/validators.dart';
 
-import '../../../SavingCreateQrCode/save_qr_code_services.dart';
-import '../../../constants/qr_code_outputs.dart';
-import '../../../route/routes_name.dart';
+class EventController {
+  final String startTime, endTime, eventName, eventLocation;
 
-class EventController extends RxController {
+  EventController({
+    required this.eventLocation,
+    required this.eventName,
+    required this.endTime,
+    required this.startTime,
+  });
+
   String? validity() {
     final startDateTimeError = Validation.dateTimeValidation("DateTime")(
-      Controllers.startDateTimeController.text,
+      startTime,
     );
     if (startDateTimeError != null) {
       return startDateTimeError;
     }
-    final endDateTimeError = Validation.dateTimeValidation("DateTime")(
-      Controllers.endDateTimeController.text,
-    );
+    final endDateTimeError = Validation.dateTimeValidation("DateTime")(endTime);
     if (endDateTimeError != null) {
       return endDateTimeError;
     }
-    final startDateTime = DateTime.parse(
-      Controllers.startDateTimeController.text,
-    );
-    final endDateTime = DateTime.parse(Controllers.endDateTimeController.text);
+    final DateFormat format =
+    DateFormat("dd MMM yyyy, hh:mm a", "en_US");
+    final DateTime startDateTime = format.parseStrict(startTime);
+    final DateTime endDateTime = format.parseStrict(endTime);
     if (startDateTime.isAtSameMomentAs(endDateTime)) {
       return "Start Date/Time and End Date/Time cannot be the same.";
     }
@@ -34,36 +35,17 @@ class EventController extends RxController {
     }
 
     final locationTextError = Validation.textValidation("Location")(
-      Controllers.eventLocationController.text,
+      eventLocation,
     );
     if (locationTextError != null) {
       return locationTextError;
     }
-    final eventNameTextError = Validation.textValidation("Location")(
-      Controllers.eventNameController.text,
+    final eventNameTextError = Validation.textValidation("Event Name")(
+      eventName,
     );
     if (eventNameTextError != null) {
       return eventNameTextError;
     }
     return null;
-  }
-
-  void generateEventQr() {
-    final eventValidationError = validity();
-    if (eventValidationError != null) {
-      ShortMessage.showErrorMessage(eventValidationError);
-      return;
-    }
-    final qrData = QrCodeOutputs.eventDetailOutput;
-    SaveQrCode saveQrCode = SaveQrCode();
-    saveQrCode
-        .saveQrCodeData(qrData)
-        .then((value) {
-          ShortMessage.showSuccessMessage("Qr Generated Successfully");
-        })
-        .onError((error, stackTrace) {
-          ShortMessage.showErrorMessage(error.toString());
-        });
-    Get.toNamed(RoutesName.qrCodeScreen, arguments: qrData);
   }
 }

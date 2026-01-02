@@ -9,10 +9,10 @@ class LaunchQrData {
     try {
       uri = Uri.parse(qrData);
     } on FormatException {
-      ShortMessage.showErrorMessage('This is a text.Use Copy button.');
+      ShortMessage.showErrorMessage(context, 'This is a text.Use Copy button.');
       return;
     } catch (e) {
-      ShortMessage.showErrorMessage("Error:$e");
+      ShortMessage.showErrorMessage(context, "Error:$e");
       return;
     }
     if (qrData.startsWith('http://') ||
@@ -32,6 +32,7 @@ class LaunchQrData {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
         ShortMessage.showErrorMessage(
+          context,
           "Not a recognized link/number. Please use Copy button.",
         );
       }

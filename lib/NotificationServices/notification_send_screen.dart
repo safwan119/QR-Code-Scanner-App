@@ -71,6 +71,7 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                 await notificationServices.sendNotification(
                   titleController.text,
                   descriptionController.text,
+                  context
                 );
               },
               child: Container(

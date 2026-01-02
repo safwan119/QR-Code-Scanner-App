@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:qr_code_scanner/Keys/one_signal_keys.dart';
@@ -7,7 +8,7 @@ import 'package:qr_code_scanner/core/util/short_message.dart';
 class NotificationServices {
   String url = "https://onesignal.com/api/v1/notifications";
 
-  sendNotification(String title, String description) async {
+  sendNotification(String title, String description,BuildContext context) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -24,9 +25,9 @@ class NotificationServices {
           "android_channel_id": "278123b7-4cd3-48fe-9ac7-021d8e93de38",
         }),
       ).then((value){
-       ShortMessage.showSuccessMessage("Message Sent Successfully");
+       ShortMessage.showSuccessMessage(context,"Message Sent Successfully");
       }).onError((error,stackTrace){
-        ShortMessage.showErrorMessage("Error:$error");
+        ShortMessage.showErrorMessage(context,"Error:$error");
       });
 
       if (response.statusCode == 200) {

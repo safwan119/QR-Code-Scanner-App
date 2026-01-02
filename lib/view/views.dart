@@ -1,0 +1,34 @@
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_business.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_contact.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_email.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_event.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_instagram.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_location.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_phone.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_text.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_twitter.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_website.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_whatsapp.dart';
+export 'package:qr_code_scanner/GenerateQRCode/qr_code_for_wifi.dart';
+export 'package:qr_code_scanner/HomeScreen/home_screen.dart';
+export 'package:qr_code_scanner/QRCodeGenerate/generate_qr_code.dart';
+export 'package:qr_code_scanner/QRCodesHistory/qr_code_history.dart';
+export 'package:qr_code_scanner/Result/qr_code_result.dart';
+export 'package:qr_code_scanner/Setting/qr_code_setting.dart';
+export 'package:qr_code_scanner/SplashScreens/eighth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/eleventh_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/fifth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/first_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/fourth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/ninth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/second_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/seventh_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/sixth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/tenth_screen.dart';
+export 'package:qr_code_scanner/SplashScreens/third_screen.dart';
+export 'package:qr_code_scanner/route/routes_name.dart';
+
+export '../BottomNavigationBar/bottom_navigation_bar.dart';
+
+export '../Result/QRCodeData/q_r_code.dart';
+export  'package:flutter/material.dart';

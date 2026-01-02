@@ -3,7 +3,6 @@ import 'package:qr_code_scanner/constants/button_click_paths.dart';
 import 'package:qr_code_scanner/constants/image_string.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
-import 'package:get/get.dart';
 
 class GenerateQrCode extends StatefulWidget {
   const GenerateQrCode({super.key});
@@ -32,7 +31,10 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
                     children: [
                       Text("Generate QR", style: textStyle(fontSize: 30)),
                       InkWell(
-                        onTap: () => Get.toNamed(RoutesName.settingScreen),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RoutesName.settingScreen,
+                        ),
                         child: Icon(
                           Icons.settings,
                           color: Colors.amber.shade700,

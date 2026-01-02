@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -27,12 +26,16 @@ class _FourthScreenState extends State<FourthScreen> {
               Text(
                 "Go and enjoy our features for free and\n make your life easy with us.",
                 textAlign: TextAlign.center,
-                style:textStyle(fontSize: 18,isColor: true,color: Colors.black)
+                style: textStyle(
+                  fontSize: 18,
+                  isColor: true,
+                  color: Colors.black,
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .03),
               InkWell(
                 onTap: () {
-                 Get.toNamed(RoutesName.fifthScreen);
+                  Navigator.pushNamed(context, RoutesName.fifthScreen);
                 },
                 child: Stack(
                   alignment: Alignment.centerRight,

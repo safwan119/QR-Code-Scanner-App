@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: 3.8.1
+  sdk: 3.10.4
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -54,27 +54,31 @@ dependencies:
   shimmer: ^3.0.0
   url_launcher: ^6.3.2
   flutter_rating: ^2.0.2
-  onesignal_flutter: ^5.3.4
+  onesignal_flutter: ^5.3.5
   flutter_local_notifications: ^19.4.2
   vibration: ^3.1.4
   audioplayers: ^6.5.1
-#  provider: ^6.1.5+1
-  get: ^4.7.2
+  #  provider: ^6.1.5+1
+#  get: ^4.7.2
   flutter_dotenv: ^6.0.0
+  bloc: ^9.1.0
+  flutter_bloc: ^9.1.1
+  another_flushbar: ^1.12.32
+  equatable: ^2.0.7
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-#  flutter_launcher_icons: ^0.14.4
+  #  flutter_launcher_icons: ^0.14.4
 
 
-#flutter_icons:
-#  android: true
-#  ios: true
-#  image_path: "assets/images/QRButton.png"
-#  adaptive_icon_foreground: "assets/images/app_image_icon.png"
+  #flutter_icons:
+  #  android: true
+  #  ios: true
+  #  image_path: "assets/images/QRButton.png"
+  #  adaptive_icon_foreground: "assets/images/app_image_icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

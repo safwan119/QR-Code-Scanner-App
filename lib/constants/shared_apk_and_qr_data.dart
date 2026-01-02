@@ -84,7 +84,10 @@ class SharedApkAndQrData {
   static void saveQrCodeImageToGallery(BuildContext context) async {
     final bytes = await captureQrCodeAsImage();
     if (bytes == null) {
-      ShortMessage.showErrorMessage("Error: QR code image capture failed.");
+      ShortMessage.showErrorMessage(
+        context,
+        "Error: QR code image capture failed.",
+      );
       return;
     }
     final result = await ImageGallerySaverPlus.saveImage(
@@ -94,10 +97,12 @@ class SharedApkAndQrData {
     );
     if (result != null && result['isSuccess']) {
       ShortMessage.showSuccessMessage(
+        context,
         "✅ QR Code saved successfully to Gallery!",
       );
     } else {
       ShortMessage.showErrorMessage(
+        context,
         "❌ Failed to save QR Code. Check permissions.",
       );
     }

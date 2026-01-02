@@ -1,87 +1,77 @@
-import 'package:get/get.dart';
-import 'package:qr_code_scanner/core/util/short_message.dart';
-
-import '../../../SavingCreateQrCode/save_qr_code_services.dart';
-import '../../../constants/controllers.dart';
-import '../../../constants/qr_code_outputs.dart';
 import '../../../core/util/validators.dart';
-import '../../../route/routes_name.dart';
 
-class ContactController extends RxController {
+class ContactController {
+  final String firstName,
+      lastName,
+      countryName,
+      cityName,
+      companyName,
+      jobName,
+      address,
+      phone,
+      email,
+      url;
+
+  ContactController({
+    required this.firstName,
+    required this.lastName,
+    required this.companyName,
+    required this.jobName,
+    required this.email,
+    required this.cityName,
+    required this.countryName,
+    required this.address,
+    required this.phone,
+    required this.url,
+  });
+
   String? validity() {
     final firstNameTextError = Validation.textValidation("First Name")(
-      Controllers.firstNameController.text,
+      firstName,
     );
     if (firstNameTextError != null) {
       return firstNameTextError;
     }
     final countryNameTextError = Validation.textValidation("Country Name")(
-      Controllers.countryController.text,
+      countryName,
     );
     if (countryNameTextError != null) {
       return countryNameTextError;
     }
-    final cityNameTextError = Validation.textValidation("City Name")(
-      Controllers.cityController.text,
-    );
+    final cityNameTextError = Validation.textValidation("City Name")(cityName);
     if (cityNameTextError != null) {
       return cityNameTextError;
     }
     final companyNameTextError = Validation.textValidation("Company Name")(
-      Controllers.companyController.text,
+      companyName,
     );
     if (companyNameTextError != null) {
       return companyNameTextError;
     }
-    final jobNameTextError = Validation.textValidation("Job Name")(
-      Controllers.jobController.text,
-    );
+    final jobNameTextError = Validation.textValidation("Job Name")(jobName);
     if (jobNameTextError != null) {
       return jobNameTextError;
     }
-    final addressNameTextError = Validation.textValidation("Address")(
-      Controllers.addressController.text,
-    );
+    final addressNameTextError = Validation.textValidation("Address")(address);
     if (addressNameTextError != null) {
       return addressNameTextError;
     }
     final phoneNumberError = Validation.phoneNumberValidity("Phone Number")(
-      Controllers.phoneController.text,
+      phone,
     );
     if (phoneNumberError != null) {
       return phoneNumberError;
     }
-    final emailAddressError = Validation.emailValidity("Email")(
-      Controllers.emailController.text,
-    );
+    final emailAddressError = Validation.emailValidity("Email")(email);
     if (emailAddressError != null) {
       return emailAddressError;
     }
     final websiteUrlValidity = Validation.websiteUrlValidity("Website Url")(
-      Controllers.websiteController.text,
+      url,
     );
     if (websiteUrlValidity != null) {
       return websiteUrlValidity;
     }
     return null;
-  }
-
-  void generateContractQr() {
-    final contactValidation = validity();
-    if (contactValidation != null) {
-      ShortMessage.showErrorMessage(contactValidation);
-      return;
-    }
-    final qrData = QrCodeOutputs.contactDetailOutputs;
-    SaveQrCode saveQrCode = SaveQrCode();
-    saveQrCode
-        .saveQrCodeData(qrData)
-        .then((value) {
-          ShortMessage.showSuccessMessage("Qr Generated Successfully");
-        })
-        .onError((error, stackTrace) {
-          ShortMessage.showErrorMessage(error.toString());
-        });
-    Get.toNamed(RoutesName.qrCodeScreen, arguments: qrData);
   }
 }

@@ -1,7 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 final GlobalKey qrKey=GlobalKey();
-File? image;
 final picker = ImagePicker();
+final scannerController = MobileScannerController();

@@ -28,7 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               itemIndex = 2;
             });
           },
-          child: Image.asset(ImagePath.QrButtonImage, fit: BoxFit.cover),
+          child: Image.asset(AppImages.QrButtonImage, fit: BoxFit.cover),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

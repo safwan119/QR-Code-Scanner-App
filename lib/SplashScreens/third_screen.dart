@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -24,7 +23,7 @@ class ThirdScreen extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * .04),
             InkWell(
               onTap: () {
-                Get.toNamed(RoutesName.fourthScreen);
+                Navigator.pushNamed(context, RoutesName.fourthScreen);
               },
               child: Image.asset("assets/images/amberLetsStart.png"),
             ),

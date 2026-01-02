@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'generate_button.dart';
-class GenerateQRCodeUsingChannel extends StatefulWidget {
-  final TextEditingController controller;
+
+class GenerateQRCodeUsingChannel extends StatelessWidget {
+
   final String title;
   final VoidCallback onTap;
   final String image;
   final String hintText;
   final String? Function(String?)? validator;
-  const GenerateQRCodeUsingChannel({super.key,this.validator, required this.title,required this.onTap,required this.image,required this.controller,required this.hintText});
+  final void Function(String?)? onChange;
 
-  @override
-  State<GenerateQRCodeUsingChannel> createState() => _GenerateQRCodeUsingChannelState();
-}
+  const GenerateQRCodeUsingChannel({
+    super.key,
+    this.onChange,
+    this.validator,
+    required this.title,
+    required this.onTap,
+    required this.image,
+    required this.hintText,
+  });
 
-class _GenerateQRCodeUsingChannelState extends State<GenerateQRCodeUsingChannel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,12 +41,12 @@ class _GenerateQRCodeUsingChannelState extends State<GenerateQRCodeUsingChannel>
           child: Column(
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * .03),
-              Center(child: Image.asset(widget.image)),
+              Center(child: Image.asset(image)),
               SizedBox(height: MediaQuery.of(context).size.height * .03),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  widget.title,
+                  title,
                   style: GoogleFonts.akayaTelivigala(
                     color: Colors.white,
                     fontWeight: FontWeight.w300,
@@ -50,18 +56,18 @@ class _GenerateQRCodeUsingChannelState extends State<GenerateQRCodeUsingChannel>
               ),
               SizedBox(height: 10),
               TextFormField(
-                controller: widget.controller,
-                validator:widget.validator,
+                validator: validator,
+                onChanged: onChange,
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: widget.hintText,
+                  hintText: hintText,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .03),
-              GenerateButton(title: "Generate QR Code", onTap: widget.onTap),
+              GenerateButton(title: "Generate QR Code", onTap: onTap),
               SizedBox(height: MediaQuery.of(context).size.height * .03),
             ],
           ),

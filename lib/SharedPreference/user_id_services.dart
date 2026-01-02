@@ -15,7 +15,7 @@ class UserIdServices{
     return newId;
   }
 
-  Future clearUserId() async {
+  Future<void> clearUserId() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(key);
   }

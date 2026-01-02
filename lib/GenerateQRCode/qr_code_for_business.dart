@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_contact.dart';
-import 'package:qr_code_scanner/constants/controllers.dart';
+import 'package:qr_code_scanner/bloc/form/form_event.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
-import 'package:qr_code_scanner/presentation/controllers/generate_qr_controllers/business_controller.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 import '../ReusableWidget/generate_button.dart';
+import '../bloc/form/form_bloc.dart';
+import '../bloc/form/form_state.dart';
+import '../core/enum/status.dart';
+import '../core/util/short_message.dart';
 import '../core/util/validators.dart';
+import '../route/routes_name.dart';
 
 class QrCodeForBusiness extends StatefulWidget {
   const QrCodeForBusiness({super.key});
@@ -17,230 +21,390 @@ class QrCodeForBusiness extends StatefulWidget {
 }
 
 class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
+  late FormBloc _formBloc;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _formBloc = FormBloc();
+  }
+
   @override
   void dispose() {
-    Controllers.countryController.dispose();
-    Controllers.industryController.dispose();
-    Controllers.phoneController.dispose();
-    Controllers.emailController.dispose();
-    Controllers.addressController.dispose();
-    Controllers.cityController.dispose();
+    _formBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final businessController = Get.find<BusinessController>();
     return Scaffold(
       backgroundColor: Colors.white12,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
+        child: BlocProvider(
+          create: (context) => _formBloc,
+          child: Form(
+            key: _formKey,
+            child: Column(
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Image.asset(ImagePath.arrowBackImage),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Image.asset(AppImages.arrowBackImage),
+                    ),
+                    Text("Business", style: textStyle(fontSize: 22)),
+                  ],
                 ),
-                Text("Business", style: textStyle(fontSize: 22)),
+                SizedBox(height: MediaQuery.of(context).size.height * .03),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border(
+                        top: BorderSide(color: Colors.amber.shade600),
+                        bottom: BorderSide(color: Colors.amber.shade600),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .03,
+                          ),
+                          Center(
+                            child: Image.asset(
+                              "assets/images/BusinessIcon.png",
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Company Name",
+                              style: textStyle(fontSize: 22),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          BlocBuilder<FormBloc, FormsState>(
+                            buildWhen: (previous, current) =>
+                                previous.companyName != current.companyName,
+                            builder: (context, state) {
+                              return TextFormFieldReusableWidget(
+                                hintText: "Enter Company",
+                                onChanged: (value) {
+                                  context.read<FormBloc>().add(
+                                    ChangeCompanyName(companyName: value ?? ''),
+                                  );
+                                },
+                                validator: Validation.textValidation(
+                                  "Company Name",
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Industry",
+                              style: textStyle(fontSize: 22),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          BlocBuilder<FormBloc, FormsState>(
+                            buildWhen: (previous, current) =>
+                                previous.industryName != current.industryName,
+                            builder: (context, state) {
+                              return TextFormFieldReusableWidget(
+                                hintText: "e.g Food/Agency",
+                                validator: Validation.textValidation(
+                                  "Industry Name",
+                                ),
+                                onChanged: (value) {
+                                  context.read<FormBloc>().add(
+                                    ChangeIndustryName(
+                                      industryName: value ?? '',
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Phone",
+                                        style: textStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    BlocBuilder<FormBloc, FormsState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.phoneNumber !=
+                                          current.phoneNumber,
+                                      builder: (context, state) {
+                                        return TextFormFieldReusableWidget(
+                                          hintText: "Enter phone",
+                                          onChanged: (value) {
+                                            context.read<FormBloc>().add(
+                                              ChangePhoneNumber(
+                                                phoneNumber: value ?? "",
+                                              ),
+                                            );
+                                          },
+                                          validator:
+                                              Validation.phoneNumberValidity(
+                                                "Phone Number",
+                                              ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Email",
+                                        style: textStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    BlocBuilder<FormBloc, FormsState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.email != current.email,
+                                      builder: (context, state) {
+                                        return TextFormFieldReusableWidget(
+                                          hintText: "Enter email",
+                                          onChanged: (value) {
+                                            context.read<FormBloc>().add(
+                                              ChangeEmailField(
+                                                email: value ?? '',
+                                              ),
+                                            );
+                                          },
+                                          validator: Validation.emailValidity(
+                                            "Email",
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Website",
+                              style: textStyle(fontSize: 22),
+                            ),
+                          ),
+                          BlocBuilder<FormBloc, FormsState>(
+                            buildWhen: (previous, current) =>
+                                previous.url != current.url,
+                            builder: (context, state) {
+                              return TextFormFieldReusableWidget(
+                                hintText: "Enter website",
+                                onChanged: (value) {
+                                  context.read<FormBloc>().add(
+                                    ChangeWebsiteUrl(url: value ?? ""),
+                                  );
+                                },
+                                validator: Validation.websiteUrlValidity(
+                                  "Website Url",
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Address",
+                              style: textStyle(fontSize: 22),
+                            ),
+                          ),
+                          BlocBuilder<FormBloc, FormsState>(
+                            buildWhen: (previous, current) =>
+                                previous.addressName != current.addressName,
+                            builder: (context, state) {
+                              return TextFormFieldReusableWidget(
+                                hintText: "Enter address",
+                                onChanged: (value) {
+                                  context.read<FormBloc>().add(
+                                    ChangeAddress(addressName: value ?? ""),
+                                  );
+                                },
+                                validator: Validation.textValidation("Address"),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "City",
+                                        style: textStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    BlocBuilder<FormBloc, FormsState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.cityName != current.cityName,
+                                      builder: (context, state) {
+                                        return TextFormFieldReusableWidget(
+                                          hintText: "Enter city",
+                                          validator: Validation.textValidation(
+                                            "City Name",
+                                          ),
+                                          onChanged: (value) {
+                                            context.read<FormBloc>().add(
+                                              ChangeCityName(
+                                                cityName: value ?? "",
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Country",
+                                        style: textStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    BlocBuilder<FormBloc, FormsState>(
+                                      buildWhen: (previous, current) =>
+                                          previous.countryName !=
+                                          current.countryName,
+                                      builder: (context, state) {
+                                        return TextFormFieldReusableWidget(
+                                          hintText: "Enter Country",
+                                          onChanged: (value) {
+                                            context.read<FormBloc>().add(
+                                              ChangeCountryName(
+                                                countryName: value ?? "",
+                                              ),
+                                            );
+                                          },
+                                          validator: Validation.textValidation(
+                                            "Country Name",
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .04,
+                          ),
+                          BlocListener<FormBloc, FormsState>(
+                            listenWhen: (previous, current) =>
+                                previous.status != current.status,
+                            listener: (context, state) {
+                              if (state.status == Status.initial) {
+                                ShortMessage.showSuccessMessage(
+                                  context,
+                                  "Loading..",
+                                );
+                              }
+                              if (state.status == Status.error) {
+                                ShortMessage.showErrorMessage(
+                                  context,
+                                  state.message,
+                                );
+                              }
+                              if (state.status == Status.complete) {
+                                ShortMessage.showSuccessMessage(
+                                  context,
+                                  state.message,
+                                );
+                                Navigator.pushNamed(
+                                  context,
+                                  RoutesName.qrCodeScreen,
+                                  arguments: state.qrResult,
+                                );
+                              }
+                            },
+                            child: BlocBuilder<FormBloc, FormsState>(
+                              builder: (context, state) {
+                                return GenerateButton(
+                                  title: "Generate QR Code",
+                                  onTap: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<FormBloc>().add(
+                                        BusinessQrGenerationButton(),
+                                      );
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .03,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * .13),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .03),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border(
-                    top: BorderSide(color: Colors.amber.shade600),
-                    bottom: BorderSide(color: Colors.amber.shade600),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .03,
-                      ),
-                      Center(
-                        child: Image.asset("assets/images/BusinessIcon.png"),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Company Name",
-                          style: textStyle(fontSize: 22),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      TextFormFieldReusableWidget(
-                        hintText: "Enter name",
-                        validator: Validation.textValidation("Company Name"),
-                        controller: Controllers.companyController,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Industry", style: textStyle(fontSize: 22)),
-                      ),
-                      SizedBox(height: 10),
-                      TextFormFieldReusableWidget(
-                        hintText: "e.g Food/Agency",
-                        validator: Validation.textValidation("Industry Name"),
-                        controller: Controllers.industryController,
-                      ),
-
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Phone",
-                                    style: textStyle(fontSize: 20),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextFormFieldReusableWidget(
-                                  hintText: "Enter phone",
-                                  validator: Validation.phoneNumberValidity(
-                                    "Phone Number",
-                                  ),
-                                  controller: Controllers.phoneController,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Email",
-                                    style: textStyle(fontSize: 20),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextFormFieldReusableWidget(
-                                  hintText: "Enter email",
-                                  validator: Validation.emailValidity("Email"),
-                                  controller: Controllers.emailController,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Website", style: textStyle(fontSize: 22)),
-                      ),
-                      TextFormFieldReusableWidget(
-                        hintText: "Enter website",
-                        validator: Validation.websiteUrlValidity("Website Url"),
-                        controller: Controllers.websiteController,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Address", style: textStyle(fontSize: 22)),
-                      ),
-                      TextFormFieldReusableWidget(
-                        hintText: "Enter address",
-                        controller: Controllers.addressController,
-                        validator: Validation.textValidation("Address"),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "City",
-                                    style: textStyle(fontSize: 20),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextFormFieldReusableWidget(
-                                  hintText: "Enter city",
-                                  validator: Validation.textValidation(
-                                    "City Name",
-                                  ),
-                                  controller: Controllers.cityController,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Country",
-                                    style: textStyle(fontSize: 20),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextFormFieldReusableWidget(
-                                  hintText: "Enter Country",
-                                  validator: Validation.textValidation(
-                                    "Country Name",
-                                  ),
-                                  controller: Controllers.countryController,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
-                      ),
-                      GenerateButton(
-                        title: "Generate QR Code",
-                        onTap: businessController.generateBusinessQr,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .03,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * .13),
-          ],
+          ),
         ),
       ),
     );

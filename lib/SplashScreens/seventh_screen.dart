@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
 class SeventhScreen extends StatefulWidget {
@@ -37,7 +36,7 @@ class _SeventhScreenState extends State<SeventhScreen> {
                     bottom: 34,
                     child: InkWell(
                       onTap: () {
-                        Get.toNamed(RoutesName.eighthScreen);
+                        Navigator.pushNamed(context, RoutesName.eighthScreen);
                       },
                       child: Image.asset("assets/images/amberLetsStart.png"),
                     ),

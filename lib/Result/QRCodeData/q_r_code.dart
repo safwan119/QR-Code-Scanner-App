@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
@@ -10,17 +8,10 @@ import 'package:qr_flutter/qr_flutter.dart' as qrflutter;
 
 import '../../constants/public_data.dart';
 
-class QRCode extends StatefulWidget {
+class QRCode extends StatelessWidget {
+  QRCode({super.key, required this.qrData});
 
-
-  QRCode({super.key});
-  final String qrData=Get.arguments;
-
-  @override
-  State<QRCode> createState() => _QRCodeState();
-}
-
-class _QRCodeState extends State<QRCode> {
+  final String qrData;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +24,9 @@ class _QRCodeState extends State<QRCode> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.back();
+                    Navigator.pop(context);
                   },
-                  child: Image.asset(ImagePath.arrowBackImage),
+                  child: Image.asset(AppImages.arrowBackImage),
                 ),
                 Text(
                   "QR Code",
@@ -94,12 +85,12 @@ class _QRCodeState extends State<QRCode> {
                   border: Border.all(color: Colors.amber.shade600),
                 ),
                 child: qrflutter.QrImageView(
-                  data: widget.qrData,
+                  data: qrData,
                   version: qrflutter.QrVersions.auto,
                   size: 250.0,
 
                   backgroundColor: Colors.white,
-                  dataModuleStyle:qrflutter.QrDataModuleStyle(
+                  dataModuleStyle: qrflutter.QrDataModuleStyle(
                     color: Colors.black,
                   ),
                   gapless: true,
@@ -122,15 +113,12 @@ class _QRCodeState extends State<QRCode> {
                   children: [
                     InkWell(
                       onTap: () {
-                        SharedApkAndQrData.shareQrCodeImage(widget.qrData);
+                        SharedApkAndQrData.shareQrCodeImage(qrData);
                       },
                       child: Image.asset("assets/images/SharePic.png"),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      "Share",
-                      style:textStyle(fontSize: 20),
-                    ),
+                    Text("Share", style: textStyle(fontSize: 20)),
                   ],
                 ),
                 Column(
@@ -139,20 +127,19 @@ class _QRCodeState extends State<QRCode> {
                     Stack(
                       alignment: Alignment.center,
                       children: [
-                        Image.asset(
-                          "assets/images/SaveBackground.png",
+                        Image.asset("assets/images/SaveBackground.png"),
+                        InkWell(
+                          onTap: () {
+                            SharedApkAndQrData.saveQrCodeImageToGallery(
+                              context,
+                            );
+                          },
+                          child: Image.asset("assets/images/SaveIcon.png"),
                         ),
-                        InkWell(onTap: () {
-                          SharedApkAndQrData.saveQrCodeImageToGallery(context);
-                        },
-                            child: Image.asset("assets/images/SaveIcon.png")),
                       ],
                     ),
                     SizedBox(height: 4),
-                    Text(
-                      "Save",
-                      style:textStyle(fontSize: 20),
-                    ),
+                    Text("Save", style: textStyle(fontSize: 20)),
                   ],
                 ),
               ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
@@ -18,10 +17,7 @@ class _EighthScreenState extends State<EighthScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.30),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -36,14 +32,13 @@ class _EighthScreenState extends State<EighthScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                  gradient: LinearGradient(colors: [
-                    const Color(0xFF9E7C49),
-                    const Color(0xFF755D30),
-                  ])
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+                gradient: LinearGradient(
+                  colors: [const Color(0xFF9E7C49), const Color(0xFF755D30)],
+                ),
               ),
               child: Column(
                 children: [
@@ -63,22 +58,14 @@ class _EighthScreenState extends State<EighthScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * .05,
-                  ),
-                  Text(
-                    "Get Started",
-                    style:textStyle(fontSize: 30)
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * .05),
+                  Text("Get Started", style: textStyle(fontSize: 30)),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 53,
-                          bottom: 20,
-                          top: .1
+                        left: 53,
+                        bottom: 20,
+                        top: .1,
                       ),
                       child: SizedBox(
                         width: 90,
@@ -93,22 +80,15 @@ class _EighthScreenState extends State<EighthScreen> {
                   Text(
                     "Go and enjoy our features for free and\n make your life easy with us.",
                     textAlign: TextAlign.center,
-                    style:textStyle(fontSize: 18)
+                    style: textStyle(fontSize: 18),
                   ),
-                  SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * .03,
+                  SizedBox(height: MediaQuery.of(context).size.height * .03),
+                  InkWell(
+                    onTap: () =>
+                        Navigator.pushNamed(context, RoutesName.ninthScreen),
+                    child: Image.asset("assets/images/amberLetsStart.png"),
                   ),
-                  InkWell(onTap: ()=>Get.toNamed(RoutesName.ninthScreen),
-                      child: Image.asset("assets/images/amberLetsStart.png")),
-                  SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * .09,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * .09),
                 ],
               ),
             ),
@@ -122,8 +102,7 @@ class _EighthScreenState extends State<EighthScreen> {
 class CustomCircle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.deepOrange.shade700;
+    var paint = Paint()..color = Colors.deepOrange.shade700;
 
     canvas.drawCircle(
       Offset(size.width / 1.9, size.height / 1.9),

@@ -1,45 +1,44 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
 class ButtonClickPaths {
   static buttonClick(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Get.toNamed(RoutesName.textScreen);
+        Navigator.pushNamed(context, RoutesName.textScreen);
         break;
       case 1:
-        Get.toNamed(RoutesName.websiteScreen);
+        Navigator.pushNamed(context, RoutesName.websiteScreen);
         break;
       case 2:
-        Get.toNamed(RoutesName.wifiScreen);
+        Navigator.pushNamed(context, RoutesName.wifiScreen);
         break;
       case 3:
-        Get.toNamed(RoutesName.eventScreen);
+        Navigator.pushNamed(context, RoutesName.eventScreen);
         break;
       case 4:
-        Get.toNamed(RoutesName.contactScreen);
+        Navigator.pushNamed(context, RoutesName.contactScreen);
         break;
       case 5:
-        Get.toNamed(RoutesName.businessScreen);
+        Navigator.pushNamed(context, RoutesName.businessScreen);
         break;
       case 6:
-        Get.toNamed(RoutesName.locationScreen);
+        Navigator.pushNamed(context, RoutesName.locationScreen);
         break;
       case 7:
-        Get.toNamed(RoutesName.whatsappScreen);
+        Navigator.pushNamed(context, RoutesName.whatsappScreen);
         break;
       case 8:
-        Get.toNamed(RoutesName.emailScreen);
+        Navigator.pushNamed(context, RoutesName.emailScreen);
         break;
       case 9:
-        Get.toNamed(RoutesName.twitterScreen);
+        Navigator.pushNamed(context, RoutesName.twitterScreen);
         break;
       case 10:
-        Get.toNamed(RoutesName.instagramScreen);
+        Navigator.pushNamed(context, RoutesName.instagramScreen);
         break;
       case 11:
-        Get.toNamed(RoutesName.phoneScreen);
+        Navigator.pushNamed(context, RoutesName.phoneScreen);
         break;
     }
   }

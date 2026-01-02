@@ -1,10 +1,10 @@
-import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Validation {
   static String? Function(String?) textValidation(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
-        return "${name.tr} is required field";
+      if (value!.isEmpty) {
+        return "${name} is required field";
       }
       return null;
     };
@@ -12,30 +12,29 @@ class Validation {
 
   static String? Function(String?) websiteUrlValidity(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
-        return "${name.tr} is required field";
+      if (value!.isEmpty) {
+        return "${name} is required field";
       }
-      if (!GetUtils.isURL(value!)) {
+      String pattern =
+          r'(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?';
+      RegExp regExp = RegExp(pattern);
+      if (!regExp.hasMatch(value)) {
         return "$name must be valid";
       }
       return null;
     };
   }
 
-  static String? Function(String?) wifiPasswordLengthValidation(
-    String name,
-    int minLength, {
-    int? maxLength,
-  }) {
+  static String? Function(String?) wifiPasswordLengthValidation(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
-        return "$name is required field";
+      if (value!.isEmpty) {
+        return "${name} is required field";
       }
-      if (!GetUtils.isLengthGreaterOrEqual(value, minLength)) {
-        return "$name length must be greater than $minLength";
+      if (value.length < 8) {
+        return "${name} must be greater or equal to 8";
       }
-      if (maxLength != null && GetUtils.isLengthGreaterThan(value, maxLength)) {
-        return "$name must be less than $maxLength";
+      if (value.length >= 12) {
+        return "${name} must be less than 12 and greater or equal to 8";
       }
       return null;
     };
@@ -43,25 +42,29 @@ class Validation {
 
   static String? Function(String?) dateTimeValidation(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
-        return "${name.tr} is required field";
+      if (value!.isEmpty) {
+        return "${name} is required field";
       }
-      if (!GetUtils.isDateTime(value!)) {
-        return "$name must be valid";
+
+      final DateFormat format = DateFormat("dd MMM yyyy, hh:mm a","en_US");
+
+      try {
+        format.parseStrict(value);
+        return null;
+      } catch (e) {
+        return "$name must be valid as hint text";
       }
-      return null;
     };
   }
 
   static String? Function(String?) phoneNumberValidity(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
+      if (value!.isEmpty) {
         return "${name} is required field";
       }
-      // if (!RegExp(r'^\d{10,}$').hasMatch(value!)) {
-      //   return "$name must be at least 10 digits".tr;
-      // }
-      if (!GetUtils.isPhoneNumber(value!)) {
+
+      final phoneRegex = RegExp(r'^\+?[0-9]{10,15}$');
+      if (!phoneRegex.hasMatch(value)) {
         return "$name must be valid";
       }
       return null;
@@ -70,10 +73,13 @@ class Validation {
 
   static String? Function(String? value) emailValidity(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
-        return "${name.tr} is required field";
+      if (value!.isEmpty) {
+        return "${name} is required field";
       }
-      if (!GetUtils.isEmail(value!)) {
+      final emailRegex = RegExp(
+        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
+      );
+      if (!emailRegex.hasMatch(value)) {
         return "This field is only $name";
       }
       return null;
@@ -82,10 +88,11 @@ class Validation {
 
   static String? Function(String?) usernameValidity(String name) {
     return (String? value) {
-      if (GetUtils.isNullOrBlank(value)!) {
+      if (value!.isEmpty) {
         return "${name} is required field";
       }
-      if (!GetUtils.isUsername(value!)) {
+      final usernameRegex = RegExp(r'^[a-zA-Z0-9_.]{3,20}$');
+      if (!usernameRegex.hasMatch(value)) {
         return "$name must be valid";
       }
       return null;

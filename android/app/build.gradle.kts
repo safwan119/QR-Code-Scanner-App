@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "com.techSafwan.qr_code_scanner"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

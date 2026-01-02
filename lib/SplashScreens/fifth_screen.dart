@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
-
 
 class FifthScreen extends StatefulWidget {
   const FifthScreen({super.key});
@@ -32,7 +30,8 @@ class _FifthScreenState extends State<FifthScreen> {
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .16),
-              Card(margin: EdgeInsets.zero,
+              Card(
+                margin: EdgeInsets.zero,
                 color: Colors.black,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -46,24 +45,26 @@ class _FifthScreenState extends State<FifthScreen> {
                       child: SizedBox(
                         height: 40,
                         width: 165,
-                        child: Divider(thickness: 7, color: Colors.amber,radius: BorderRadius.circular(10),),
+                        child: Divider(
+                          thickness: 7,
+                          color: Colors.amber,
+                          radius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * .05),
-                    Text(
-                      "Get Started",
-                      style:textStyle(fontSize: 30)
-                    ),
+                    Text("Get Started", style: textStyle(fontSize: 30)),
                     Text(
                       "Go and enjoy our features for free and\n make your life easy with us.",
                       textAlign: TextAlign.center,
-                      style:textStyle(fontSize: 18)
+                      style: textStyle(fontSize: 18),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * .05),
-                    InkWell(onTap: (){
-                        Get.toNamed(RoutesName.sixthScreen);
-                      },
-                          child: Image.asset("assets/images/letsGo.png")),
+                    InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, RoutesName.sixthScreen),
+                      child: Image.asset("assets/images/letsGo.png"),
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.height * .10),
                   ],
                 ),

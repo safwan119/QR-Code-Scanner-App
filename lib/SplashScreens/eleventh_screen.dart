@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
@@ -44,7 +43,7 @@ class _EleventhScreenState extends State<EleventhScreen> {
                       final deviceId = await userIdService.getOrCreateUserId();
                       OneSignal.login(deviceId);
                       print("Login successfully and user id is:$deviceId");
-                      Get.toNamed(RoutesName.bottomNavigationScreen);
+                      Navigator.pushNamed(context, RoutesName.bottomNavigationScreen);
                     },
                     child: CircleAvatar(
                       backgroundColor: Colors.amber.shade600,

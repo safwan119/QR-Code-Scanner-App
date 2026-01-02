@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
+
 class TenthScreen extends StatefulWidget {
   const TenthScreen({super.key});
 
@@ -25,22 +25,31 @@ class _TenthScreenState extends State<TenthScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * .15),
               Text(
                 "Get Started",
-                style:textStyle(fontSize: 30,isColor: true,color: Colors.black)
+                style: textStyle(
+                  fontSize: 30,
+                  isColor: true,
+                  color: Colors.black,
+                ),
               ),
               Text(
                 "Go and enjoy our features for free and\n make your life easy with us.",
                 textAlign: TextAlign.center,
-                style:textStyle(fontSize: 18,isColor: true,color: Colors.black)
+                style: textStyle(
+                  fontSize: 18,
+                  isColor: true,
+                  color: Colors.black,
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .04),
-              Stack(alignment: Alignment.centerRight,
+              Stack(
+                alignment: Alignment.centerRight,
                 children: [
                   Image.asset("assets/images/CurveLowerImage.png"),
                   Padding(
-                    padding: const EdgeInsets.only(right: 10,left: 0),
+                    padding: const EdgeInsets.only(right: 10, left: 0),
                     child: InkWell(
-                      onTap: (){
-                        Get.toNamed(RoutesName.eleventhScreen);
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.eleventhScreen);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.amber.shade600,

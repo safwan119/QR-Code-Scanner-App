@@ -1,13 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:qr_code_scanner/core/binding/initial_binding.dart';
-import 'package:qr_code_scanner/res/getx_localization/language.dart';
-import 'package:qr_code_scanner/route/app_pages.dart';
+import 'package:qr_code_scanner/bloc/camera/change_camera_bloc.dart';
+import 'package:qr_code_scanner/bloc/gallery_image/gallery_image_bloc.dart';
+import 'package:qr_code_scanner/bloc/preference/preference_bloc.dart';
+import 'package:qr_code_scanner/route/routes.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 import 'firebase_options.dart';
-import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,19 +25,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => PreferenceBloc()),
+        BlocProvider(create: (context) => GalleryImageBloc()),
+        BlocProvider(create: (context) => ChangeCameraBloc()),
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'QR Swift',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        initialBinding: InitialBinding(),
-        locale: Locale("en","US"),
-        fallbackLocale: Locale("en","US"),
-        translations: Language(),
-        initialRoute: RoutesName.eleventhScreen,
-        getPages:AppPages.Routes,
-      );
-
+        locale: Locale("en", "US"),
+        initialRoute: RoutesName.firstScreen,
+        onGenerateRoute: Routes.generateRoutes,
+      ),
+    );
   }
 }
