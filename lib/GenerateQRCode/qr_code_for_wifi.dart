@@ -22,6 +22,8 @@ class QrCodeForWifi extends StatefulWidget {
 class _QrCodeForWifiState extends State<QrCodeForWifi> {
   late FormBloc _formBloc;
   final _formKey = GlobalKey<FormState>();
+  final FocusNode wifiNameFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
   @override
   void dispose() {
     _formBloc.close();
+    wifiNameFocus.dispose();
+    passwordFocus.dispose();
     super.dispose();
   }
 
@@ -94,9 +98,16 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                                 previous.networkName != current.networkName,
                             builder: (context, state) {
                               return TextFormField(
+                                focusNode: wifiNameFocus,
                                 validator: Validation.textValidation(
                                   "NetworkName",
                                 ),
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(passwordFocus);
+                                },
+
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeNetworkName(networkName: value),
@@ -129,6 +140,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                                 current.networkPassword,
                             builder: (context, state) {
                               return TextFormField(
+                                focusNode: passwordFocus,
                                 style: TextStyle(color: Colors.white),
                                 validator:
                                     Validation.wifiPasswordLengthValidation(

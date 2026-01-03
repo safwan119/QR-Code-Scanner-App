@@ -22,6 +22,16 @@ class QrCodeForContact extends StatefulWidget {
 class _QrCodeForContactState extends State<QrCodeForContact> {
   late FormBloc _formBloc;
   final _formKey = GlobalKey<FormState>();
+  final FocusNode firstNameFocus = FocusNode();
+  final FocusNode lastNameFocus = FocusNode();
+  final FocusNode companyNameFocus = FocusNode();
+  final FocusNode jobNameFocus = FocusNode();
+  final FocusNode phoneNumberFocus = FocusNode();
+  final FocusNode EmailFocus = FocusNode();
+  final FocusNode websiteFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  final FocusNode cityNameFocus = FocusNode();
+  final FocusNode countryNameFocus = FocusNode();
 
   @override
   void initState() {
@@ -32,6 +42,16 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
   @override
   void dispose() {
     _formBloc.close();
+    firstNameFocus.dispose();
+    lastNameFocus.dispose();
+    companyNameFocus.dispose();
+    jobNameFocus.dispose();
+    phoneNumberFocus.dispose();
+    EmailFocus.dispose();
+    websiteFocus.dispose();
+    addressFocus.dispose();
+    cityNameFocus.dispose();
+    countryNameFocus.dispose();
     super.dispose();
   }
 
@@ -103,12 +123,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter name",
+                                          focusNode: firstNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeFirstName(
                                                 firstName: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(lastNameFocus);
                                           },
                                           validator: Validation.textValidation(
                                             "First Name",
@@ -137,12 +163,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter name",
+                                          focusNode: lastNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeSecondName(
                                                 secondName: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(companyNameFocus);
                                           },
                                           validator: Validation.textValidation(
                                             "Last Name",
@@ -179,12 +211,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter Company",
+                                          focusNode: companyNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeCompanyName(
                                                 companyName: value ?? '',
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(jobNameFocus);
                                           },
                                           validator: Validation.textValidation(
                                             "Company Name",
@@ -213,12 +251,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter job",
+                                          focusNode: jobNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeJobName(
                                                 jobName: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(phoneNumberFocus);
                                           },
                                           validator: Validation.textValidation(
                                             "Job Name",
@@ -255,12 +299,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter phone",
+                                          focusNode: phoneNumberFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangePhoneNumber(
                                                 phoneNumber: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(EmailFocus);
                                           },
                                           validator:
                                               Validation.phoneNumberValidity(
@@ -290,12 +340,18 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter email",
+                                          focusNode: EmailFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeEmailField(
                                                 email: value ?? '',
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(websiteFocus);
                                           },
                                           validator: Validation.emailValidity(
                                             "Email",
@@ -324,10 +380,16 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "Enter website",
+                                focusNode: websiteFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeWebsiteUrl(url: value ?? ""),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(addressFocus);
                                 },
                                 validator: Validation.websiteUrlValidity(
                                   "Website Url",
@@ -351,10 +413,16 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "Enter address",
+                                focusNode: addressFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeAddress(addressName: value ?? ""),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(cityNameFocus);
                                 },
                                 validator: Validation.textValidation("Address"),
                               );
@@ -383,6 +451,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter city",
+                                          focusNode: cityNameFocus,
                                           validator: Validation.textValidation(
                                             "City Name",
                                           ),
@@ -392,6 +461,11 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                                 cityName: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(countryNameFocus);
                                           },
                                         );
                                       },
@@ -418,6 +492,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter Country",
+                                          focusNode: countryNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeCountryName(
@@ -504,11 +579,15 @@ class TextFormFieldReusableWidget extends StatelessWidget {
   final String hintText;
   final String? Function(String?)? validator;
   final void Function(String?)? onChanged;
+  final FocusNode? focusNode;
+  final void Function(String?)? onFieldSubmitted;
 
   const TextFormFieldReusableWidget({
     super.key,
+    this.focusNode,
     this.onChanged,
     this.validator,
+    this.onFieldSubmitted,
     required this.hintText,
   });
 
@@ -516,8 +595,10 @@ class TextFormFieldReusableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(color: Colors.white),
+      focusNode: focusNode,
       onChanged: onChanged,
       validator: validator,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),

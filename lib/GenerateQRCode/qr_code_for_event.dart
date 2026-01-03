@@ -21,6 +21,11 @@ class QrCodeForEvent extends StatefulWidget {
 
 class _QrCodeForEventState extends State<QrCodeForEvent> {
   late FormBloc _formBloc;
+  final FocusNode eventNameFocus = FocusNode();
+  final FocusNode startTimeFocus = FocusNode();
+  final FocusNode endTimeFocus = FocusNode();
+  final FocusNode eventLocationNode = FocusNode();
+  final FocusNode descriptionNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -32,6 +37,11 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
   @override
   void dispose() {
     _formBloc.close();
+    eventNameFocus.dispose();
+    eventLocationNode.dispose();
+    startTimeFocus.dispose();
+    endTimeFocus.dispose();
+    descriptionNode.dispose();
     super.dispose();
   }
 
@@ -97,11 +107,17 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                                 validator: Validation.textValidation(
                                   "Event Name",
                                 ),
+                                focusNode: eventNameFocus,
                                 style: TextStyle(color: Colors.white),
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeEventName(eventName: value),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(startTimeFocus);
                                 },
                                 decoration: InputDecoration(
                                   hintText: "Enter event name",
@@ -129,10 +145,16 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                                 validator: Validation.dateTimeValidation(
                                   "StartDateTime",
                                 ),
+                                focusNode: startTimeFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeStartDateTime(startTime: value),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(endTimeFocus);
                                 },
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
@@ -161,10 +183,16 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                                 validator: Validation.dateTimeValidation(
                                   "EndDataTime",
                                 ),
+                                focusNode: endTimeFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeEndDateTime(endTime: value),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(eventLocationNode);
                                 },
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
@@ -193,11 +221,17 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                                 validator: Validation.textValidation(
                                   "Location",
                                 ),
+                                focusNode: eventLocationNode,
                                 style: TextStyle(color: Colors.white),
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeEventLocation(eventLocation: value),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(descriptionNode);
                                 },
                                 decoration: InputDecoration(
                                   hintText: "Enter location",
@@ -222,12 +256,14 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                           BlocBuilder<FormBloc, FormsState>(
                             builder: (context, state) {
                               return TextFormField(
+                                focusNode: descriptionNode,
                                 style: TextStyle(color: Colors.white),
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeDescription(description: value),
                                   );
                                 },
+
                                 maxLines: 3,
 
                                 decoration: InputDecoration(

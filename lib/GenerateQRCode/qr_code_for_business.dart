@@ -23,6 +23,14 @@ class QrCodeForBusiness extends StatefulWidget {
 class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
   late FormBloc _formBloc;
   final _formKey = GlobalKey<FormState>();
+  final FocusNode companyNameFocus = FocusNode();
+  final FocusNode industryNameFocus = FocusNode();
+  final FocusNode phoneNumberFocus = FocusNode();
+  final FocusNode EmailFocus = FocusNode();
+  final FocusNode websiteFocus = FocusNode();
+  final FocusNode addressFocus = FocusNode();
+  final FocusNode cityNameFocus = FocusNode();
+  final FocusNode countryNameFocus = FocusNode();
 
   @override
   void initState() {
@@ -33,6 +41,14 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
   @override
   void dispose() {
     _formBloc.close();
+    companyNameFocus.dispose();
+    industryNameFocus.dispose();
+    phoneNumberFocus.dispose();
+    EmailFocus.dispose();
+    websiteFocus.dispose();
+    addressFocus.dispose();
+    cityNameFocus.dispose();
+    countryNameFocus.dispose();
     super.dispose();
   }
 
@@ -100,10 +116,16 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "Enter Company",
+                                focusNode: companyNameFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeCompanyName(companyName: value ?? ''),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(industryNameFocus);
                                 },
                                 validator: Validation.textValidation(
                                   "Company Name",
@@ -128,6 +150,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "e.g Food/Agency",
+                                focusNode: industryNameFocus,
                                 validator: Validation.textValidation(
                                   "Industry Name",
                                 ),
@@ -137,6 +160,11 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                       industryName: value ?? '',
                                     ),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(phoneNumberFocus);
                                 },
                               );
                             },
@@ -165,6 +193,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                           current.phoneNumber,
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
+                                          focusNode: phoneNumberFocus,
                                           hintText: "Enter phone",
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
@@ -172,6 +201,11 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                                 phoneNumber: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(EmailFocus);
                                           },
                                           validator:
                                               Validation.phoneNumberValidity(
@@ -201,12 +235,18 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter email",
+                                          focusNode: EmailFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeEmailField(
                                                 email: value ?? '',
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(websiteFocus);
                                           },
                                           validator: Validation.emailValidity(
                                             "Email",
@@ -235,10 +275,16 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "Enter website",
+                                focusNode: websiteFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeWebsiteUrl(url: value ?? ""),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(addressFocus);
                                 },
                                 validator: Validation.websiteUrlValidity(
                                   "Website Url",
@@ -262,10 +308,16 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                             builder: (context, state) {
                               return TextFormFieldReusableWidget(
                                 hintText: "Enter address",
+                                focusNode: addressFocus,
                                 onChanged: (value) {
                                   context.read<FormBloc>().add(
                                     ChangeAddress(addressName: value ?? ""),
                                   );
+                                },
+                                onFieldSubmitted: (value) {
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(cityNameFocus);
                                 },
                                 validator: Validation.textValidation("Address"),
                               );
@@ -294,6 +346,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter city",
+                                          focusNode: cityNameFocus,
                                           validator: Validation.textValidation(
                                             "City Name",
                                           ),
@@ -303,6 +356,11 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                                 cityName: value ?? "",
                                               ),
                                             );
+                                          },
+                                          onFieldSubmitted: (value) {
+                                            FocusScope.of(
+                                              context,
+                                            ).requestFocus(countryNameFocus);
                                           },
                                         );
                                       },
@@ -329,6 +387,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter Country",
+                                          focusNode: countryNameFocus,
                                           onChanged: (value) {
                                             context.read<FormBloc>().add(
                                               ChangeCountryName(
