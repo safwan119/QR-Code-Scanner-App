@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/core/functions/phone_number_launching.dart';
+import 'package:qr_code_scanner/core/functions/wifi_launch.dart';
 import 'package:qr_code_scanner/core/util/short_message.dart';
 import 'package:qr_code_scanner/presentation/widgets/url/app_urls.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,12 +23,16 @@ class LaunchQrData {
       final urlString = qrData.startsWith('http') ? qrData : 'https://$qrData';
       final uri = Uri.parse(urlString.trim());
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else if (qrData.startsWith('http://wa.me/') ||
-        qrData.startsWith("tel") ||
-        qrData.startsWith("mailto")) {
+    } else if (qrData.startsWith("mailto")) {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
+    } else if (qrData.startsWith('http://wa.me/')) {
+      PhoneNumberLaunching.LaunchPhoneNumber(qrData);
+    } else if (qrData.startsWith("tel")) {
+      PhoneNumberLaunching.launchToDialer(qrData);
+    } else if (qrData.startsWith("WIFI")) {
+      await WifiLaunch.launchToWifi(wifiName: qrData);
     } else {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);

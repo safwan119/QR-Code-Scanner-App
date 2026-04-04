@@ -8,6 +8,7 @@ import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 import '../ReusableWidget/generate_button.dart';
 import '../bloc/form/form_bloc.dart';
 import '../bloc/form/form_state.dart';
+import '../constants/app_size.dart';
 import '../core/enum/status.dart';
 import '../core/util/short_message.dart';
 import '../route/routes_name.dart';
@@ -65,7 +66,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                     Text("Event", style: textStyle(fontSize: 22)),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .03),
+                SizedBox(height: AppSize.h3),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
@@ -82,9 +83,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           Center(
                             child: Image.asset("assets/images/EventIcon.png"),
                           ),
@@ -98,7 +97,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             buildWhen: (previous, current) =>
                                 previous.eventName != current.eventName,
@@ -128,9 +127,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .02,
-                          ),
+                          SizedBox(height: AppSize.h2),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -138,7 +135,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             builder: (context, state) {
                               return TextFormField(
@@ -166,9 +163,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .02,
-                          ),
+                          SizedBox(height: AppSize.h2),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -176,7 +171,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             builder: (context, state) {
                               return TextFormField(
@@ -204,9 +199,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .02,
-                          ),
+                          SizedBox(height: AppSize.h2),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -242,9 +235,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .02,
-                          ),
+                          SizedBox(height: AppSize.h2),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -252,7 +243,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             builder: (context, state) {
                               return TextFormField(
@@ -263,9 +254,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                                     ChangeDescription(description: value),
                                   );
                                 },
-
                                 maxLines: 3,
-
                                 decoration: InputDecoration(
                                   hintText: "Enter any details",
                                   border: OutlineInputBorder(
@@ -275,9 +264,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           BlocListener<FormBloc, FormsState>(
                             listenWhen: (previous, current) =>
                                 previous.status != current.status,
@@ -321,15 +308,13 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .09),
+                SizedBox(height: AppSize.h9),
               ],
             ),
           ),

@@ -31,7 +31,9 @@ assets/.env
 .packages
 .pub-cache/
 .pub/
+*.apk
 /build/
+assets/files/
 
 # Android related
 **/android/**/gradle-wrapper.jar

@@ -87,7 +87,9 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
                         },
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            context.read<FormBloc>().add(UrlQrGenerationButton());
+                            context.read<FormBloc>().add(
+                              UrlQrGenerationButton(),
+                            );
                           }
                         },
                         validator: Validation.websiteUrlValidity("website url"),

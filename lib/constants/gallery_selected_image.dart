@@ -42,7 +42,6 @@ class GallerySelectedImage {
       scannedCode = capture.barcodes.first.rawValue;
     }
     if (scannedCode != null) {
-
       // scannedData = scannedCode;
       context.read<GalleryImageBloc>().add(SetQrLink(scannedCode: scannedCode));
       if (context.mounted) {

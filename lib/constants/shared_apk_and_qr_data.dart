@@ -13,9 +13,9 @@ import 'package:share_plus/share_plus.dart';
 
 class SharedApkAndQrData {
   static Future<void> shareApkFile(BuildContext context) async {
-    String fileName = 'app-release.apk';
+    String fileName = 'app-debug.apk';
     final tempDir = await getTemporaryDirectory();
-    final ByteData data = await rootBundle.load("assets/files/app-release.apk");
+    final ByteData data = await rootBundle.load("assets/files/app-debug.apk");
     final List<int> bytes = data.buffer.asUint8List(
       data.offsetInBytes,
       data.lengthInBytes,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'generate_button.dart';
 
 class GenerateQRCodeUsingChannel extends StatelessWidget {
-
   final String title;
   final VoidCallback onTap;
   final String image;

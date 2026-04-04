@@ -105,56 +105,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             return SizedBox(
                               width: 290,
                               height: 290,
-                              child:
-                                  /////Optional hai yai
+                              child: MobileScanner(
+                                controller: scannerController,
+                                onDetect: (capture) async {
+                                  final List<Barcode> barcodes =
+                                      capture.barcodes;
+                                  final String? code = barcodes.isNotEmpty
+                                      ? barcodes.first.rawValue
+                                      : null;
+                                  if (code != null) {
+                                    scannerController.stop();
+                                    context.read<ChangeCameraBloc>().add(
+                                      SoundEffectOnCapturingQrCode(),
+                                    );
+                                    context.read<GalleryImageBloc>().add(
+                                      SetQrLink(scannedCode: code),
+                                    );
+                                    SaveQrCode.saveScanDataResultToDatabase(
+                                      code,
+                                      context,
+                                    );
+                                    context.read<GalleryImageBloc>().add(
+                                      SetImageQrLinkNull(),
+                                    );
+                                    await Navigator.pushNamed(
+                                      context,
+                                      RoutesName.resultScreen,
+                                      arguments: code,
+                                    );
 
-
-                                  // state.file != null
-                                  //     ? Image.file(
-                                  //         state.file!,
-                                  //         fit: BoxFit.contain,
-                                  //         width: double.infinity,
-                                  //         height: double.infinity,
-                                  //       )
-                                  //     :
-                                  MobileScanner(
-                                    controller: scannerController,
-                                    onDetect: (capture) async {
-                                      final List<Barcode> barcodes =
-                                          capture.barcodes;
-                                      final String? code = barcodes.isNotEmpty
-                                          ? barcodes.first.rawValue
-                                          : null;
-                                      if (code != null) {
-                                        scannerController.stop();
-                                        context.read<ChangeCameraBloc>().add(
-                                          SoundEffectOnCapturingQrCode(),
-                                        );
-                                        context.read<GalleryImageBloc>().add(
-                                          SetQrLink(scannedCode: code),
-                                        );
-                                        SaveQrCode.saveScanDataResultToDatabase(
-                                          code,
-                                          context,
-                                        );
-                                        context.read<GalleryImageBloc>().add(
-                                          SetImageQrLinkNull(),
-                                        );
-                                        await Navigator.pushNamed(
-                                          context,
-                                          RoutesName.resultScreen,
-                                          arguments: code,
-                                        );
-
-                                        if (kDebugMode) {
-                                          print("The Scanned link is :$code");
-                                        }
-                                        if (mounted) {
-                                          scannerController.start();
-                                        }
-                                      }
-                                    },
-                                  ),
+                                    if (kDebugMode) {
+                                      print("The Scanned link is :$code");
+                                    }
+                                    if (mounted) {
+                                      scannerController.start();
+                                    }
+                                  }
+                                },
+                              ),
                             );
                           },
                         ),

@@ -8,6 +8,7 @@ import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 import '../ReusableWidget/generate_qr_code_using_channel.dart';
 import '../bloc/form/form_bloc.dart';
 import '../bloc/form/form_state.dart';
+import '../constants/app_size.dart';
 import '../core/enum/status.dart';
 import '../core/util/short_message.dart';
 import '../route/routes_name.dart';
@@ -57,7 +58,7 @@ class _QrCodeForEmailState extends State<QrCodeForEmail> {
                     Text("Email", style: textStyle(fontSize: 22)),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .13),
+                SizedBox(height: AppSize.getHeight(13.0)),
                 BlocListener<FormBloc, FormsState>(
                   listenWhen: (previous, current) =>
                       previous.status != current.status,

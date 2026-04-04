@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code_scanner/GenerateQRCode/qr_code_for_contact.dart';
 import 'package:qr_code_scanner/bloc/form/form_event.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
+import '../ReusableWidget/form_fields/text_form_field_reusable_widget.dart';
 import '../ReusableWidget/generate_button.dart';
 import '../bloc/form/form_bloc.dart';
 import '../bloc/form/form_state.dart';
@@ -74,7 +75,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                     Text("Business", style: textStyle(fontSize: 22)),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .03),
+                SizedBox(height: AppSize.h3),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
@@ -91,17 +92,13 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           Center(
                             child: Image.asset(
                               "assets/images/BusinessIcon.png",
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -109,7 +106,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             buildWhen: (previous, current) =>
                                 previous.companyName != current.companyName,
@@ -133,9 +130,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -143,7 +138,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h2),
                           BlocBuilder<FormBloc, FormsState>(
                             buildWhen: (previous, current) =>
                                 previous.industryName != current.industryName,
@@ -170,9 +165,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                             },
                           ),
 
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -186,7 +179,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.phoneNumber !=
@@ -217,7 +210,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -228,7 +221,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.email != current.email,
@@ -259,9 +252,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -292,9 +283,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -323,9 +312,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -339,7 +326,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.cityName != current.cityName,
@@ -368,7 +355,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -379,7 +366,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.countryName !=
@@ -406,9 +393,7 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           BlocListener<FormBloc, FormsState>(
                             listenWhen: (previous, current) =>
                                 previous.status != current.status,
@@ -452,15 +437,13 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .13),
+                SizedBox(height: AppSize.h3),
               ],
             ),
           ),

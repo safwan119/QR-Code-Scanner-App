@@ -88,9 +88,7 @@ class _QrCodeForTwitterState extends State<QrCodeForTwitter> {
                         },
                         onChange: (value) {
                           context.read<FormBloc>().add(
-                            ChangeTwitterUserNameField(
-                              userName: value??"",
-                            ),
+                            ChangeTwitterUserNameField(userName: value ?? ""),
                           );
                         },
                         validator: Validation.usernameValidity(

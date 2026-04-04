@@ -87,9 +87,7 @@ class _QrCodeForInstagramState extends State<QrCodeForInstagram> {
                         },
                         onChange: (value) {
                           context.read<FormBloc>().add(
-                            ChangeInstagramUser(
-                              instagramUserName: value??"",
-                            ),
+                            ChangeInstagramUser(instagramUserName: value ?? ""),
                           );
                         },
                         image: "assets/images/InstagramIcon.png",

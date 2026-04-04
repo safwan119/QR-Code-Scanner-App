@@ -5,9 +5,11 @@ import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/core/util/validators.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
+import '../ReusableWidget/form_fields/text_form_field_reusable_widget.dart';
 import '../ReusableWidget/generate_button.dart';
 import '../bloc/form/form_bloc.dart';
 import '../bloc/form/form_state.dart';
+import '../constants/app_size.dart';
 import '../core/enum/status.dart';
 import '../core/util/short_message.dart';
 import '../route/routes_name.dart';
@@ -75,7 +77,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                     Text("Contact", style: textStyle(fontSize: 22)),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .03),
+                SizedBox(height: AppSize.h3),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
@@ -92,15 +94,13 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           Center(
-                            child: Image.asset("assets/images/ContactIcon.png"),
+                            child: Image.asset(
+                              "assets/images/contact_icon.png",
+                            ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -145,7 +145,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -187,9 +187,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -203,7 +201,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.companyName !=
@@ -233,7 +231,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -244,7 +242,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.jobName != current.jobName,
@@ -275,9 +273,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -291,7 +287,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.phoneNumber !=
@@ -322,7 +318,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -333,7 +329,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h2),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.email != current.email,
@@ -364,9 +360,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -397,9 +391,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -428,9 +420,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -444,7 +434,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                         style: textStyle(fontSize: 20),
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: AppSize.h4),
                                     BlocBuilder<FormBloc, FormsState>(
                                       buildWhen: (previous, current) =>
                                           previous.cityName != current.cityName,
@@ -473,7 +463,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                   ],
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: AppSize.w2),
                               Expanded(
                                 child: Column(
                                   children: [
@@ -511,9 +501,7 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .04,
-                          ),
+                          SizedBox(height: AppSize.h4),
                           BlocListener<FormBloc, FormsState>(
                             listenWhen: (previous, current) =>
                                 previous.status != current.status,
@@ -557,51 +545,17 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .13),
+                SizedBox(height: AppSize.getHeight(13.0)),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class TextFormFieldReusableWidget extends StatelessWidget {
-  final String hintText;
-  final String? Function(String?)? validator;
-  final void Function(String?)? onChanged;
-  final FocusNode? focusNode;
-  final void Function(String?)? onFieldSubmitted;
-
-  const TextFormFieldReusableWidget({
-    super.key,
-    this.focusNode,
-    this.onChanged,
-    this.validator,
-    this.onFieldSubmitted,
-    required this.hintText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      style: TextStyle(color: Colors.white),
-      focusNode: focusNode,
-      onChanged: onChanged,
-      validator: validator,
-      onFieldSubmitted: onFieldSubmitted,
-      decoration: InputDecoration(
-        hintText: hintText,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
       ),
     );
   }

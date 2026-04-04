@@ -1,5 +1,5 @@
-class ImageString{
- static List imageList = [
+class ImageString {
+  static List imageList = [
     "assets/images/TextPic.png",
     "assets/images/WebsitePic.png",
     "assets/images/WifiPic.png",

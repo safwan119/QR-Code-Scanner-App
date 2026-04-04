@@ -77,7 +77,9 @@ class _QrCodeForPhoneState extends State<QrCodeForPhone> {
                       key: _formKey,
                       child: GenerateQRCodeUsingChannel(
                         title: "Phone Number",
-                        validator: Validation.phoneNumberValidity("Phone Number"),
+                        validator: Validation.phoneNumberValidity(
+                          "Phone Number",
+                        ),
                         onChange: (value) {
                           context.read<FormBloc>().add(
                             ChangePhoneNumber(phoneNumber: value ?? ""),
