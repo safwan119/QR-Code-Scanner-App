@@ -8,7 +8,6 @@ class ShortMessage {
       context: context,
       flushbar: Flushbar(
         title: "Alert",
-        // padding: EdgeInsets.symmetric(horizontal: 20),
         duration: Duration(seconds: 3),
         backgroundColor: Colors.red,
         borderColor: Colors.red.shade400,
@@ -32,7 +31,6 @@ class ShortMessage {
       context: context,
       flushbar: Flushbar(
         title: "Success",
-        // padding: EdgeInsets.symmetric(horizontal: 20),
         duration: Duration(seconds: 3),
         backgroundColor: Colors.green,
         borderColor: Colors.green.shade400,
@@ -44,7 +42,7 @@ class ShortMessage {
         safeArea: true,
         messageColor: Colors.white,
         messageSize: 18,
-        titleSize: 20,
+        titleSize: 18,
         margin: EdgeInsets.symmetric(horizontal: 20),
       )..show(context),
     );

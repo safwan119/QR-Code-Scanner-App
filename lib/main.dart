@@ -6,6 +6,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:qr_code_scanner/bloc/camera/change_camera_bloc.dart';
 import 'package:qr_code_scanner/bloc/gallery_image/gallery_image_bloc.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_bloc.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/route/routes.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 import 'firebase_options.dart';
@@ -39,6 +40,10 @@ class MyApp extends StatelessWidget {
         ),
         locale: Locale("en", "US"),
         initialRoute: RoutesName.firstScreen,
+        builder: (context, child) {
+          AppSize.init(context);
+          return child!;
+        },
         onGenerateRoute: Routes.generateRoutes,
       ),
     );
