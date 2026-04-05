@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:qr_code_scanner/SharedPreference/user_id_services.dart';
 import 'package:qr_code_scanner/bloc/camera/change_camera_bloc.dart';
 import 'package:qr_code_scanner/bloc/gallery_image/gallery_image_bloc.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_bloc.dart';
@@ -17,6 +18,7 @@ void main() async {
   OneSignal.initialize("e4fdd5b1-c113-4d15-b13b-a8c9eab021f2");
   OneSignal.Notifications.requestPermission(true);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await PrefUtils.init();
   await dotenv.load(fileName: "assets/.env");
   runApp(const MyApp());
 }
