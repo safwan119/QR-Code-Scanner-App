@@ -27,8 +27,6 @@ export 'package:qr_code_scanner/SplashScreens/sixth_screen.dart';
 export 'package:qr_code_scanner/SplashScreens/tenth_screen.dart';
 export 'package:qr_code_scanner/SplashScreens/third_screen.dart';
 export 'package:qr_code_scanner/route/routes_name.dart';
-
 export '../BottomNavigationBar/bottom_navigation_bar.dart';
-
 export '../Result/QRCodeData/q_r_code.dart';
-export  'package:flutter/material.dart';
+export 'package:flutter/material.dart';
