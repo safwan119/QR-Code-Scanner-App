@@ -78,7 +78,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               if (isSelected)
                 Container(
                   height: 3,
-                  width: 40,
+                  width: 43,
                   decoration: BoxDecoration(
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(5),
