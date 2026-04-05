@@ -7,9 +7,9 @@ import 'package:qr_code_scanner/bloc/camera/change_camera_bloc.dart';
 import 'package:qr_code_scanner/bloc/camera/change_camera_event.dart';
 import 'package:qr_code_scanner/bloc/camera/change_camera_state.dart';
 import 'package:qr_code_scanner/bloc/gallery_image/gallery_image_bloc.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/gallery_selected_image.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
-
 import '../constants/public_data.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // final cameraController = Get.find<QrCameraController>();
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -31,67 +30,69 @@ class _HomeScreenState extends State<HomeScreen> {
             Image.asset("assets/images/ExcludeImage.png"),
             Column(
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * .08),
+                SizedBox(height: AppSize.h8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Container(
-                    width: double.infinity,
-                    height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.black,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        BlocBuilder<GalleryImageBloc, GalleryImageState>(
-                          builder: (context, state) {
-                            return InkWell(
-                              onTap: () {
-                                GallerySelectedImage.scanFromGalleryImageAndUpload(
-                                  context: context,
-                                  // qrLink: state.qrLink,
-                                  // scannedData: state.scannedCode,
-                                  // selectedImage: state.selectedFile,
-                                );
-                              },
-                              child: Image.asset("assets/images/ImageIcon.png"),
-                            );
-                          },
-                        ),
-                        BlocBuilder<ChangeCameraBloc, ChangeCameraState>(
-                          buildWhen: (previous, current) =>
-                              previous.isTorchOn != current.isTorchOn,
-                          builder: (context, state) {
-                            return InkWell(
-                              onTap: () async {
-                                await scannerController.toggleTorch();
-                                context.read<ChangeCameraBloc>().add(
-                                  SetTouchChange(),
-                                );
-                              },
-                              child: state.isTorchOn
-                                  ? Icon(
-                                      Icons.flash_on,
-                                      color: Colors.amber.shade600,
-                                    )
-                                  : Image.asset("assets/images/TorchIcon.png"),
-                            );
-                          },
-                        ),
-                        InkWell(
-                          onTap: () {
-                            scannerController.switchCamera();
-                          },
-                          child: Image.asset(
-                            "assets/images/FlipCameraIcon.png",
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          BlocBuilder<GalleryImageBloc, GalleryImageState>(
+                            builder: (context, state) {
+                              return InkWell(
+                                onTap: () {
+                                  GallerySelectedImage.scanFromGalleryImageAndUpload(
+                                    context: context,
+                                  );
+                                },
+                                child: Image.asset(
+                                  "assets/images/ImageIcon.png",
+                                ),
+                              );
+                            },
                           ),
-                        ),
-                      ],
+                          BlocBuilder<ChangeCameraBloc, ChangeCameraState>(
+                            buildWhen: (previous, current) =>
+                                previous.isTorchOn != current.isTorchOn,
+                            builder: (context, state) {
+                              return InkWell(
+                                onTap: () async {
+                                  await scannerController.toggleTorch();
+                                  context.read<ChangeCameraBloc>().add(
+                                    SetTouchChange(),
+                                  );
+                                },
+                                child: state.isTorchOn
+                                    ? Icon(
+                                        Icons.flash_on,
+                                        color: Colors.amber.shade600,
+                                      )
+                                    : Image.asset(
+                                        "assets/images/TorchIcon.png",
+                                      ),
+                              );
+                            },
+                          ),
+                          InkWell(
+                            onTap: () {
+                              scannerController.switchCamera();
+                            },
+                            child: Image.asset(
+                              "assets/images/FlipCameraIcon.png",
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .06),
+                SizedBox(height: AppSize.h8),
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -103,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               previous.file != current.file,
                           builder: (context, state) {
                             return SizedBox(
-                              width: 290,
-                              height: 290,
+                              width: AppSize.getWidth(75.0),
+                              height: AppSize.getHeight(34.0),
                               child: MobileScanner(
                                 controller: scannerController,
                                 onDetect: (capture) async {
@@ -133,7 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       RoutesName.resultScreen,
                                       arguments: code,
                                     );
-
                                     if (kDebugMode) {
                                       print("The Scanned link is :$code");
                                     }
@@ -148,13 +148,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-
-                    Image.asset("assets/images/CameraPic.png"),
+                    Image.asset(
+                      "assets/images/CameraPic.png",
+                      width: AppSize.getWidth(82.0),
+                      height: AppSize.getHeight(38.0),
+                      fit: BoxFit.cover,
+                    ),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .06),
+                SizedBox(height: AppSize.h6),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: BlocBuilder<ChangeCameraBloc, ChangeCameraState>(
                     buildWhen: (previous, current) =>
                         previous.sliderValues != current.sliderValues,
@@ -173,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               '-',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 30,
+                                fontSize: 35,
                               ),
                             ),
                           ),
@@ -211,7 +215,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .15),
               ],
             ),
           ],
