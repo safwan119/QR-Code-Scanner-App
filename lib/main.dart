@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:qr_code_scanner/Keys/one_signal_keys.dart';
 import 'package:qr_code_scanner/SharedPreference/user_id_services.dart';
 import 'package:qr_code_scanner/bloc/camera/change_camera_bloc.dart';
 import 'package:qr_code_scanner/bloc/gallery_image/gallery_image_bloc.dart';
@@ -15,7 +16,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize("e4fdd5b1-c113-4d15-b13b-a8c9eab021f2");
+  OneSignal.initialize(OneSignalKeys.oneSignalKey ?? '');
   OneSignal.Notifications.requestPermission(true);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await PrefUtils.init();
