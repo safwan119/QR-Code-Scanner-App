@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/presentation/widgets/history/history_look.dart';
 import 'package:qr_code_scanner/presentation/widgets/shimmer/history_shimmer.dart';
@@ -29,8 +30,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
   }
 
   Future<String> getDeviceId() async {
-    final userIdService = UserIdServices();
-    return await userIdService.getOrCreateUserId();
+    return await PrefUtils.getOrCreateUserId();
   }
 
   @override
@@ -41,30 +41,36 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
         length: 2,
         child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * .07),
+            SizedBox(height: AppSize.h7),
             Builder(
               builder: (context) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("History", style: textStyle(fontSize: 30)),
-                    InkWell(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        RoutesName.settingScreen,
-                      ),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("History", style: textStyle(fontSize: 30)),
+                      InkWell(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RoutesName.settingScreen,
+                        ),
 
-                      child: Icon(Icons.settings, color: Colors.amber.shade700),
-                    ),
-                  ],
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.amber.shade700,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .03),
+            SizedBox(height: AppSize.h3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
-                height: 70,
+                height: 62,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.black,
@@ -72,7 +78,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
                 child: HistoryTab(),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .01),
+            SizedBox(height: AppSize.h1),
             Expanded(
               child: TabBarView(
                 children: [
@@ -116,9 +122,11 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
                                 final List list = data.values.toList();
                                 return ListView.builder(
                                   itemCount: list.length,
+
                                   physics: BouncingScrollPhysics(),
                                   primary: false,
                                   shrinkWrap: true,
+                                  padding: EdgeInsets.all(4.0),
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
@@ -169,6 +177,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
                                     itemCount: 4,
                                     primary: false,
                                     shrinkWrap: true,
+                                    padding: EdgeInsets.all(4.0),
                                     itemBuilder: (context, index) {
                                       return HistoryShimmer();
                                     },
@@ -203,6 +212,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
                                   itemCount: list.length,
                                   primary: false,
                                   shrinkWrap: true,
+                                  padding: EdgeInsets.all(4.0),
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return InkWell(
