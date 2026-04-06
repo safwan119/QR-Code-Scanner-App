@@ -8,8 +8,7 @@ class SaveQrCode{
   static final firebaseDatabase=FirebaseDatabase.instance.ref("CreateQrCode");
   static final dateTime=DateFormat("dd MMMM yyyy, hh:mm a").format(DateTime.now());
   Future<void> saveQrCodeData(String qrData,) async {
-    final userIdService = UserIdServices();
-    final deviceId = await userIdService.getOrCreateUserId();
+    final deviceId = await PrefUtils.getOrCreateUserId();
     final id=DateTime.now().millisecondsSinceEpoch.toString();
     firebaseDatabase.child(deviceId).child(id).set({
       "id":id,
@@ -21,8 +20,7 @@ class SaveQrCode{
 
   }
   static Future<void> saveScanDataResultToDatabase(String scanResult,BuildContext context) async {
-    final userIdService = UserIdServices();
-    final deviceId = await userIdService.getOrCreateUserId();
+    final deviceId = await PrefUtils.getOrCreateUserId();
     final id = DateTime.now().millisecondsSinceEpoch.toString();
     databaseReference.child(deviceId).child(id).set({
       "id": id,
