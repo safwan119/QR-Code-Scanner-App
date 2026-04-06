@@ -8,12 +8,15 @@ import 'package:qr_code_scanner/bloc/camera/change_camera_state.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_bloc.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_event.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_state.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/core/util/short_message.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 import 'package:qr_code_scanner/presentation/widgets/url/app_urls.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../ReusableWidget/reusable_card.dart';
 
 class QrCodeSetting extends StatefulWidget {
   const QrCodeSetting({super.key});
@@ -52,14 +55,14 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               InkWell(
                 onTap: () => Navigator.pop(context),
                 child: Image.asset(AppImages.arrowBackImage),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h2),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
                   "Setting",
                   style: textStyle(
@@ -69,9 +72,9 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: AppSize.h2),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Card(
                   color: Colors.black,
                   shape: RoundedRectangleBorder(
@@ -91,37 +94,46 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                       "Vibration when scan is done",
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: BlocBuilder<PreferenceBloc, PreferenceState>(
-                      builder: (context, preState) {
-                        return BlocBuilder<ChangeCameraBloc, ChangeCameraState>(
-                          buildWhen: (previous, current) =>
-                              previous.vibrateSwitch != current.vibrateSwitch ||
-                              previous.beepSwitch != current.beepSwitch,
-                          builder: (context, state) {
-                            return Switch(
-                              activeThumbColor: Colors.amber.shade600,
-                              value: state.vibrateSwitch,
-                              onChanged: (value) async {
-                                context.read<ChangeCameraBloc>().add(
-                                  SetVibrateSwitch(vibrateValue: value),
-                                );
-                                dbRef.child(preState.userDeviceId).set({
-                                  "VibrateSwitch": state.vibrateSwitch,
-                                  "BeepSwitch": state.beepSwitch,
-                                });
-                              },
-                            );
-                          },
-                        );
+                    trailing: BlocListener<ChangeCameraBloc, ChangeCameraState>(
+                      listenWhen: (previous, current) =>
+                          previous.vibrateSwitch != current.vibrateSwitch,
+                      listener: (context, state) {
+                        final preState = context.read<PreferenceBloc>().state;
+
+                        dbRef.child(preState.userDeviceId).set({
+                          "VibrateSwitch": state.vibrateSwitch,
+                          "BeepSwitch": state.beepSwitch,
+                        });
                       },
+                      child: BlocBuilder<PreferenceBloc, PreferenceState>(
+                        builder: (context, preState) {
+                          return BlocBuilder<
+                            ChangeCameraBloc,
+                            ChangeCameraState
+                          >(
+                            buildWhen: (previous, current) =>
+                                previous.vibrateSwitch != current.vibrateSwitch,
+                            builder: (context, state) {
+                              return Switch(
+                                activeThumbColor: Colors.amber.shade600,
+                                value: state.vibrateSwitch,
+                                onChanged: (value) {
+                                  context.read<ChangeCameraBloc>().add(
+                                    SetVibrateSwitch(vibrateValue: value),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-
-              SizedBox(height: 20),
+              SizedBox(height: AppSize.h1),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Card(
                   color: Colors.black,
                   shape: RoundedRectangleBorder(
@@ -141,38 +153,46 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                       "Beep when scan is done",
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: BlocBuilder<PreferenceBloc, PreferenceState>(
-                      buildWhen: (previous, current) =>
-                          previous.userDeviceId != current.userDeviceId,
-                      builder: (context, preState) {
-                        return BlocBuilder<ChangeCameraBloc, ChangeCameraState>(
-                          buildWhen: (previous, current) =>
-                              previous.vibrateSwitch != current.vibrateSwitch ||
-                              previous.beepSwitch != current.beepSwitch,
-                          builder: (context, state) {
-                            return Switch(
-                              activeThumbColor: Colors.amber.shade600,
-                              value: state.beepSwitch,
-                              onChanged: (value) async {
-                                context.read<ChangeCameraBloc>().add(
-                                  SetBeepSwitch(beepValue: value),
-                                );
-                                dbRef.child(preState.userDeviceId).set({
-                                  "VibrateSwitch": state.vibrateSwitch,
-                                  "BeepSwitch": state.beepSwitch,
-                                });
-                              },
-                            );
-                          },
-                        );
+                    trailing: BlocListener<ChangeCameraBloc, ChangeCameraState>(
+                      listenWhen: (previous, current) =>
+                          previous.beepSwitch != current.beepSwitch,
+                      listener: (context, state) {
+                        final preState = context.read<PreferenceBloc>().state;
+
+                        dbRef.child(preState.userDeviceId).set({
+                          "VibrateSwitch": state.vibrateSwitch,
+                          "BeepSwitch": state.beepSwitch,
+                        });
                       },
+                      child: BlocBuilder<PreferenceBloc, PreferenceState>(
+                        builder: (context, preState) {
+                          return BlocBuilder<
+                            ChangeCameraBloc,
+                            ChangeCameraState
+                          >(
+                            buildWhen: (previous, current) =>
+                                previous.beepSwitch != current.beepSwitch,
+                            builder: (context, state) {
+                              return Switch(
+                                activeThumbColor: Colors.amber.shade600,
+                                value: state.beepSwitch,
+                                onChanged: (value) {
+                                  context.read<ChangeCameraBloc>().add(
+                                    SetBeepSwitch(beepValue: value),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .05),
+              SizedBox(height: AppSize.h6),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
                   "Support",
                   style: textStyle(
@@ -182,9 +202,9 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: AppSize.h2),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 13),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: InkWell(
                   onTap: () => _showDialogBox(),
                   child: ReusableCard(
@@ -194,8 +214,9 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                 ),
               ),
+              SizedBox(height: AppSize.h1),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 13),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: InkWell(
                   onTap: () => SharedApkAndQrData.shareApkFile(context),
                   child: ReusableCard(
@@ -205,8 +226,9 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                 ),
               ),
+              SizedBox(height: AppSize.h1),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 13),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: InkWell(
                   onTap: () async {
                     final Uri uri = Uri.parse(AppUrls.privacyUrl);
@@ -300,37 +322,35 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  if (preState.userDeviceId != null) {
-                                    firebaseDatabaseReference
-                                        .child(preState.userDeviceId)
-                                        .once()
-                                        .then((snapshot) {
-                                          final data =
-                                              snapshot.snapshot.value as Map?;
-                                          if (data != null && data.isNotEmpty) {
-                                            ShortMessage.showErrorMessage(
-                                              context,
-                                              "You have already submitted the review",
-                                            );
-                                          } else {
-                                            firebaseDatabaseReference
-                                                .child(preState.userDeviceId)
-                                                .set({"rating": state.rating})
-                                                .then((value) {
-                                                  ShortMessage.showSuccessMessage(
-                                                    context,
-                                                    "Submit Successfully",
-                                                  );
-                                                })
-                                                .onError((error, stackTrace) {
-                                                  ShortMessage.showSuccessMessage(
-                                                    context,
-                                                    "An error during submitting the review",
-                                                  );
-                                                });
-                                          }
-                                        });
-                                  }
+                                  firebaseDatabaseReference
+                                      .child(preState.userDeviceId)
+                                      .once()
+                                      .then((snapshot) {
+                                        final data =
+                                            snapshot.snapshot.value as Map?;
+                                        if (data != null && data.isNotEmpty) {
+                                          ShortMessage.showErrorMessage(
+                                            context,
+                                            "You have already submitted the review",
+                                          );
+                                        } else {
+                                          firebaseDatabaseReference
+                                              .child(preState.userDeviceId)
+                                              .set({"rating": state.rating})
+                                              .then((value) {
+                                                ShortMessage.showSuccessMessage(
+                                                  context,
+                                                  "Submit Successfully",
+                                                );
+                                              })
+                                              .onError((error, stackTrace) {
+                                                ShortMessage.showSuccessMessage(
+                                                  context,
+                                                  "An error during submitting the review",
+                                                );
+                                              });
+                                        }
+                                      });
                                   Navigator.pop(context);
                                 },
                                 child: Text(
@@ -350,39 +370,6 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
           },
         );
       },
-    );
-  }
-}
-
-class ReusableCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final String subtitle;
-
-  const ReusableCard({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.black,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
-      child: ListTile(
-        leading: Image.asset(image),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        subtitle: Text(subtitle, style: TextStyle(color: Colors.white)),
-      ),
     );
   }
 }
