@@ -55,6 +55,8 @@ class _QrCodeForLocationState extends State<QrCodeForLocation> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .13),
               BlocListener<FormBloc, FormsState>(
+                listenWhen: (previous, current) =>
+                    previous.status != current.status,
                 listener: (context, state) {
                   if (state.status == Status.initial) {
                     ShortMessage.showSuccessMessage(context, "Loading..");
