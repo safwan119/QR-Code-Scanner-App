@@ -4,8 +4,6 @@ import 'package:qr_code_scanner/bloc/preference/preference_event.dart';
 import 'package:qr_code_scanner/bloc/preference/preference_state.dart';
 
 class PreferenceBloc extends Bloc<PreferenceEvent, PreferenceState> {
-  final UserIdServices userIdServices = UserIdServices();
-
   PreferenceBloc() : super(PreferenceState()) {
     on<InitializeDeviceId>(_initializeDeviceId);
     on<DeleteDeviceId>(_deleteDeviceId);
@@ -15,7 +13,7 @@ class PreferenceBloc extends Bloc<PreferenceEvent, PreferenceState> {
     InitializeDeviceId event,
     Emitter<PreferenceState> emit,
   ) async {
-    final userDeviceId = await userIdServices.getOrCreateUserId();
+    final userDeviceId = await PrefUtils.getOrCreateUserId();
     emit(state.copyWith(userDeviceId: userDeviceId));
   }
 
@@ -23,7 +21,7 @@ class PreferenceBloc extends Bloc<PreferenceEvent, PreferenceState> {
     DeleteDeviceId event,
     Emitter<PreferenceState> emit,
   ) async {
-    await userIdServices.clearUserId();
+    await PrefUtils.clearUserId();
     emit(state.copyWith());
   }
 }
