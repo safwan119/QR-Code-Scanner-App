@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/button_click_paths.dart';
 import 'package:qr_code_scanner/constants/image_string.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
@@ -20,35 +21,41 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
       backgroundColor: Colors.black38,
       body: SingleChildScrollView(
         child: Container(
+          constraints: BoxConstraints(minHeight: AppSize.getHeight(100.0)),
           color: Colors.black38,
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .07),
+              SizedBox(height: AppSize.h7),
               Builder(
                 builder: (context) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("Generate QR", style: textStyle(fontSize: 30)),
-                      InkWell(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          RoutesName.settingScreen,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Generate QR", style: textStyle(fontSize: 30)),
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            RoutesName.settingScreen,
+                          ),
+                          child: Icon(
+                            Icons.settings,
+                            color: Colors.amber.shade700,
+                          ),
                         ),
-                        child: Icon(
-                          Icons.settings,
-                          color: Colors.amber.shade700,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
+              SizedBox(height: AppSize.h5),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.builder(
                   shrinkWrap: true,
                   primary: false,
+                  padding: EdgeInsets.zero,
                   itemCount: imageList.length,
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 120,
@@ -65,7 +72,6 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
                   },
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .22),
             ],
           ),
         ),
