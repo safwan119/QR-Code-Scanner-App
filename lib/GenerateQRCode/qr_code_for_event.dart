@@ -207,7 +207,7 @@ class _QrCodeForEventState extends State<QrCodeForEvent> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h1),
                           BlocBuilder<FormBloc, FormsState>(
                             builder: (context, state) {
                               return TextFormField(
