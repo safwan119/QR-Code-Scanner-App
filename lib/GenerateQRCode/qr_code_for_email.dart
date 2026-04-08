@@ -44,9 +44,7 @@ class _QrCodeForEmailState extends State<QrCodeForEmail> {
         create: (context) => _formBloc,
         child: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
+            constraints: BoxConstraints(minHeight: AppSize.getHeight(100.0)),
             child: Column(
               children: [
                 Row(
