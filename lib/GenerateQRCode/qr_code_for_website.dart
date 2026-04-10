@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/bloc/form/form_bloc.dart';
 import 'package:qr_code_scanner/bloc/form/form_event.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/core/util/validators.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
@@ -53,7 +54,7 @@ class _QrCodeForWebsiteState extends State<QrCodeForWebsite> {
                   Text("Website", style: textStyle(fontSize: 22)),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .13),
+              SizedBox(height: AppSize.getHeight(13.0)),
               BlocListener<FormBloc, FormsState>(
                 listenWhen: (previous, current) =>
                     previous.status != current.status,
