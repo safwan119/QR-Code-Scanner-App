@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 class AppSize {
   static late MediaQueryData? _mediaQuery;
 
-  ///call this in a main.dart of material app
-  //   builder: (context, child) {
-  //   AppSize.init(context);
-  //   return child!;
-  // },
   static void init(BuildContext context) {
     _mediaQuery = MediaQuery.of(context);
   }
