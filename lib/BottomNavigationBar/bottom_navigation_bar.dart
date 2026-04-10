@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/HomeScreen/home_screen.dart';
 import 'package:qr_code_scanner/QRCodeGenerate/generate_qr_code.dart';
 import 'package:qr_code_scanner/QRCodesHistory/qr_code_history.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -74,7 +75,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             children: [
               Icon(iconData, color: color, size: 24),
               Text(label, style: TextStyle(color: color, fontSize: 12)),
-              SizedBox(height: 5),
+              SizedBox(height: AppSize.h0_5),
               if (isSelected)
                 Container(
                   height: 3,
@@ -85,7 +86,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                   ),
                 )
               else
-                SizedBox(height: 5),
+                SizedBox(height: AppSize.h0_5),
             ],
           ),
         ),
