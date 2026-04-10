@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class EighthScreen extends StatefulWidget {
+class EighthScreen extends StatelessWidget {
   const EighthScreen({super.key});
 
-  @override
-  State<EighthScreen> createState() => _EighthScreenState();
-}
-
-class _EighthScreenState extends State<EighthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +13,7 @@ class _EighthScreenState extends State<EighthScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
+            SizedBox(height: AppSize.getHeight(30.0)),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -58,7 +54,7 @@ class _EighthScreenState extends State<EighthScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * .05),
+                  SizedBox(height: AppSize.h5),
                   Text("Get Started", style: textStyle(fontSize: 30)),
                   Center(
                     child: Padding(
@@ -82,13 +78,13 @@ class _EighthScreenState extends State<EighthScreen> {
                     textAlign: TextAlign.center,
                     style: textStyle(fontSize: 18),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * .03),
+                  SizedBox(height: AppSize.h3),
                   InkWell(
                     onTap: () =>
                         Navigator.pushNamed(context, RoutesName.ninthScreen),
                     child: Image.asset("assets/images/amberLetsStart.png"),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * .09),
+                  SizedBox(height: AppSize.h9),
                 ],
               ),
             ),
