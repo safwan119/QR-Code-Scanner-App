@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/bloc/form/form_bloc.dart';
 import 'package:qr_code_scanner/bloc/form/form_event.dart';
 import 'package:qr_code_scanner/bloc/form/form_state.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/core/util/validators.dart';
 import 'package:qr_code_scanner/presentation/widgets/image/image_path.dart';
@@ -59,7 +60,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                     Text("Wi-Fi", style: textStyle(fontSize: 22)),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .13),
+                SizedBox(height: AppSize.h3),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
@@ -76,15 +77,11 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           Center(
                             child: Image.asset("assets/images/WifiIcon.png"),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -92,7 +89,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                               style: textStyle(fontSize: 22),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: AppSize.h1),
                           BlocBuilder<FormBloc, FormsState>(
                             buildWhen: (previous, current) =>
                                 previous.networkName != current.networkName,
@@ -123,9 +120,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .02,
-                          ),
+                          SizedBox(height: AppSize.h2),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -162,9 +157,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                               );
                             },
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                           BlocListener<FormBloc, FormsState>(
                             listenWhen: (previous, current) =>
                                 previous.status != current.status,
@@ -208,9 +201,7 @@ class _QrCodeForWifiState extends State<QrCodeForWifi> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .03,
-                          ),
+                          SizedBox(height: AppSize.h3),
                         ],
                       ),
                     ),
