@@ -5,15 +5,10 @@ import 'package:qr_code_scanner/constants/image_string.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class GenerateQrCode extends StatefulWidget {
-  const GenerateQrCode({super.key});
+class GenerateQrCode extends StatelessWidget {
+  GenerateQrCode({super.key});
 
-  @override
-  State<GenerateQrCode> createState() => _GenerateQrCodeState();
-}
-
-class _GenerateQrCodeState extends State<GenerateQrCode> {
-  List imageList = ImageString.imageList;
+  final List imageList = ImageString.imageList;
 
   @override
   Widget build(BuildContext context) {
