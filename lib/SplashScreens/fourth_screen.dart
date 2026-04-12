@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class FourthScreen extends StatefulWidget {
+class FourthScreen extends StatelessWidget {
   const FourthScreen({super.key});
 
-  @override
-  State<FourthScreen> createState() => _FourthScreenState();
-}
-
-class _FourthScreenState extends State<FourthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +15,10 @@ class _FourthScreenState extends State<FourthScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .24),
+              SizedBox(height: AppSize.getHeight(24.0)),
               Center(child: Image.asset("assets/images/QRCodeImage.png")),
 
-              SizedBox(height: MediaQuery.of(context).size.height * .24),
+              SizedBox(height: AppSize.getHeight(24.0)),
               Text(
                 "Go and enjoy our features for free and\n make your life easy with us.",
                 textAlign: TextAlign.center,
@@ -32,7 +28,7 @@ class _FourthScreenState extends State<FourthScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, RoutesName.fifthScreen);
