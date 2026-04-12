@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 
 import 'generate_button.dart';
 
@@ -39,9 +40,9 @@ class GenerateQRCodeUsingChannel extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               Center(child: Image.asset(image)),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -53,7 +54,7 @@ class GenerateQRCodeUsingChannel extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: AppSize.h1),
               TextFormField(
                 validator: validator,
                 onChanged: onChange,
@@ -65,9 +66,9 @@ class GenerateQRCodeUsingChannel extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               GenerateButton(title: "Generate QR Code", onTap: onTap),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
             ],
           ),
         ),
