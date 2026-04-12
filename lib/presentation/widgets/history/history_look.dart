@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 
 import '../../../constants/text_style.dart';
 import '../image/image_path.dart';
@@ -23,13 +24,13 @@ class HistoryLook extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: [
-          SizedBox(width: 10),
+          SizedBox(width: AppSize.h1),
           Image.asset(AppImages.qrCodeDataImage),
-          SizedBox(width: 15),
+          SizedBox(width: AppSize.getHeight(1.5)),
           Expanded(
             child: Column(
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: AppSize.h1),
                 Row(
                   children: [
                     Expanded(
@@ -60,7 +61,7 @@ class HistoryLook extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: AppSize.h1),
               ],
             ),
           ),
