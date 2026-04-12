@@ -6,14 +6,9 @@ import 'package:qr_code_scanner/route/routes_name.dart';
 
 import '../SharedPreference/user_id_services.dart';
 
-class EleventhScreen extends StatefulWidget {
+class EleventhScreen extends StatelessWidget {
   const EleventhScreen({super.key});
 
-  @override
-  State<EleventhScreen> createState() => _EleventhScreenState();
-}
-
-class _EleventhScreenState extends State<EleventhScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
