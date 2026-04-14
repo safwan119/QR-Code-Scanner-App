@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class NinthScreen extends StatefulWidget {
+class NinthScreen extends StatelessWidget {
   const NinthScreen({super.key});
 
-  @override
-  State<NinthScreen> createState() => _NinthScreenState();
-}
-
-class _NinthScreenState extends State<NinthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +16,7 @@ class _NinthScreenState extends State<NinthScreen> {
             children: [
               Image.asset("assets/images/CurveBackgroundImage.png"),
               Image.asset("assets/images/QRCodeImage.png"),
-              SizedBox(height: MediaQuery.of(context).size.height * .08),
+              SizedBox(height: AppSize.h8),
               Text(
                 "Get Started",
                 style: textStyle(
@@ -38,7 +34,7 @@ class _NinthScreenState extends State<NinthScreen> {
                   isColor: true,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .03),
+              SizedBox(height: AppSize.h3),
               InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, RoutesName.tenthScreen);
