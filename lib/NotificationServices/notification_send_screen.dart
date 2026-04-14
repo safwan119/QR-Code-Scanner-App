@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/NotificationServices/notification_services.dart';
 
-class NotificationSendScreen extends StatefulWidget {
-  const NotificationSendScreen({super.key});
+class NotificationSendScreen extends StatelessWidget {
+  NotificationSendScreen({super.key});
 
-  @override
-  State<NotificationSendScreen> createState() => _NotificationSendScreenState();
-}
-
-class _NotificationSendScreenState extends State<NotificationSendScreen> {
   final titleController = TextEditingController();
+
   final descriptionController = TextEditingController();
- NotificationServices notificationServices=NotificationServices();
+
+  final NotificationServices notificationServices = NotificationServices();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +34,9 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                 hintText: "Enter title for notification..",
                 label: Text("title*"),
                 labelStyle: TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)
-                  )
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
               ),
             ),
             SizedBox(height: 10),
@@ -52,8 +50,8 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                 labelStyle: TextStyle(color: Colors.white),
                 label: Text("desc*"),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)
-                )
+                  borderSide: BorderSide(color: Colors.white),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -62,7 +60,8 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                 if (titleController.text.isEmpty ||
                     descriptionController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(backgroundColor: Colors.red,
+                    SnackBar(
+                      backgroundColor: Colors.red,
                       content: Text('Title and description cannot be empty.'),
                     ),
                   );
@@ -71,7 +70,7 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                 await notificationServices.sendNotification(
                   titleController.text,
                   descriptionController.text,
-                  context
+                  context,
                 );
               },
               child: Container(
@@ -81,10 +80,13 @@ class _NotificationSendScreenState extends State<NotificationSendScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Text("Send Notification",style: TextStyle(color: Colors.black),),
+                  child: Text(
+                    "Send Notification",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
