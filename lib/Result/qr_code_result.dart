@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/launch_qr_data.dart';
 import 'package:qr_code_scanner/constants/shared_apk_and_qr_data.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
@@ -38,13 +39,11 @@ class QrCodeResult extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    SizedBox(height: 10),
+                    SizedBox(height: AppSize.h1),
                     Row(
                       children: [
                         Image.asset(AppImages.qrCodeDataImage),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .04,
-                        ),
+                        SizedBox(width: AppSize.h4),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -59,7 +58,7 @@ class QrCodeResult extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: AppSize.h1),
                     Divider(color: Colors.white10, thickness: 3),
                     SelectableText(
                       onTap: () {
@@ -71,7 +70,7 @@ class QrCodeResult extends StatelessWidget {
                       style: textStyle(fontSize: 16),
                       maxLines: 5,
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: AppSize.h1),
                     InkWell(
                       onTap: () {
                         Navigator.pushNamed(
@@ -89,7 +88,7 @@ class QrCodeResult extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: AppSize.h1),
                   ],
                 ),
               ),
@@ -120,7 +119,7 @@ class QrCodeResult extends StatelessWidget {
                     },
                     child: Image.asset("assets/images/CopyPic.png"),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: AppSize.getHeight(.4)),
                   Text("Copy", style: textStyle(fontSize: 20)),
                 ],
               ),
