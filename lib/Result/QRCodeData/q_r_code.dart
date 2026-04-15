@@ -68,7 +68,7 @@ class QRCode extends StatelessWidget {
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: AppSize.h0_5),
                       ],
                     ),
                   ),
@@ -89,7 +89,6 @@ class QRCode extends StatelessWidget {
                   data: qrData,
                   version: qrflutter.QrVersions.auto,
                   size: 250.0,
-
                   backgroundColor: Colors.white,
                   dataModuleStyle: qrflutter.QrDataModuleStyle(
                     color: Colors.black,
@@ -139,7 +138,7 @@ class QRCode extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: AppSize.getHeight(.4)),
                     Text("Save", style: textStyle(fontSize: 20)),
                   ],
                 ),
