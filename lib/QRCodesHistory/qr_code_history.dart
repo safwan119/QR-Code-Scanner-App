@@ -183,7 +183,7 @@ class _QrCodeHistoryState extends State<QrCodeHistory> {
                                     },
                                     separatorBuilder:
                                         (BuildContext context, int index) {
-                                          return SizedBox(height: 10);
+                                          return SizedBox(height: AppSize.h1);
                                         },
                                   );
                                 }
