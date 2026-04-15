@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class SeventhScreen extends StatefulWidget {
+class SeventhScreen extends StatelessWidget {
   const SeventhScreen({super.key});
 
-  @override
-  State<SeventhScreen> createState() => _SeventhScreenState();
-}
-
-class _SeventhScreenState extends State<SeventhScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +16,9 @@ class _SeventhScreenState extends State<SeventhScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .30),
+              SizedBox(height: AppSize.getHeight(30.0)),
               Center(child: Image.asset("assets/images/QRCodeImage.png")),
-              SizedBox(height: MediaQuery.of(context).size.height * .15),
+              SizedBox(height: AppSize.getHeight(15.0)),
               Stack(
                 alignment: Alignment.center,
                 children: [

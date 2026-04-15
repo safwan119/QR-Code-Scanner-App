@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/constants/app_size.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class TenthScreen extends StatefulWidget {
+class TenthScreen extends StatelessWidget {
   const TenthScreen({super.key});
 
-  @override
-  State<TenthScreen> createState() => _TenthScreenState();
-}
-
-class _TenthScreenState extends State<TenthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +16,9 @@ class _TenthScreenState extends State<TenthScreen> {
           child: Column(
             children: [
               Image.asset("assets/images/IntersectImage.png"),
-              SizedBox(height: MediaQuery.of(context).size.height * .06),
+              SizedBox(height: AppSize.h6),
               Image.asset("assets/images/QRCodeImage.png"),
-              SizedBox(height: MediaQuery.of(context).size.height * .15),
+              SizedBox(height: AppSize.getHeight(15.0)),
               Text(
                 "Get Started",
                 style: textStyle(
@@ -40,7 +36,7 @@ class _TenthScreenState extends State<TenthScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .04),
+              SizedBox(height: AppSize.h4),
               Stack(
                 alignment: Alignment.centerRight,
                 children: [

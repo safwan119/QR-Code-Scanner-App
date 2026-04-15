@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
-class SixthScreen extends StatefulWidget {
+import '../constants/app_size.dart';
+
+class SixthScreen extends StatelessWidget {
   const SixthScreen({super.key});
 
-  @override
-  State<SixthScreen> createState() => _SixthScreenState();
-}
-
-class _SixthScreenState extends State<SixthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +17,9 @@ class _SixthScreenState extends State<SixthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .20),
+              SizedBox(height: AppSize.getHeight(20.0)),
               Center(child: Image.asset("assets/images/QRCodeImage.png")),
-              SizedBox(height: MediaQuery.of(context).size.height * .12),
+              SizedBox(height: AppSize.getHeight(12.0)),
               Align(
                 alignment: Alignment.centerLeft,
                 child: ClipPath(
@@ -44,7 +41,7 @@ class _SixthScreenState extends State<SixthScreen> {
                 margin: EdgeInsets.zero,
                 child: Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * .03),
+                    SizedBox(height: AppSize.h3),
                     Text("Get Started", style: textStyle(fontSize: 30)),
                     Center(
                       child: Padding(
@@ -68,7 +65,7 @@ class _SixthScreenState extends State<SixthScreen> {
                       textAlign: TextAlign.center,
                       style: textStyle(fontSize: 18),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .03),
+                    SizedBox(height: AppSize.h3),
                     InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, RoutesName.seventhScreen);
@@ -84,7 +81,7 @@ class _SixthScreenState extends State<SixthScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .06),
+                    SizedBox(height: AppSize.h6),
                   ],
                 ),
               ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/constants/text_style.dart';
 import 'package:qr_code_scanner/route/routes_name.dart';
 
+import '../constants/app_size.dart';
+
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({super.key});
 
@@ -12,15 +14,15 @@ class ThirdScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * .25),
+            SizedBox(height: AppSize.getHeight(25.0)),
             Center(child: Image.asset("assets/images/blackPic.png")),
-            SizedBox(height: MediaQuery.of(context).size.height * .22),
+            SizedBox(height: AppSize.getHeight(22.0)),
             Text(
               "Go and enjoy our features for free and\n make your life easy with us.",
               textAlign: TextAlign.center,
               style: textStyle(fontSize: 18),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .04),
+            SizedBox(height: AppSize.h4),
             InkWell(
               onTap: () {
                 Navigator.pushNamed(context, RoutesName.fourthScreen);
