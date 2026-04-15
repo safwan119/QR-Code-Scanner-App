@@ -82,7 +82,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                   child: ListTile(
                     leading: Image.asset(AppImages.vibrationIconImage),
-                    title: Text(
+                    title: const Text(
                       "Vibrate",
                       style: TextStyle(
                         color: Colors.white,
@@ -141,7 +141,7 @@ class _QrCodeSettingState extends State<QrCodeSetting> {
                   ),
                   child: ListTile(
                     leading: Image.asset(AppImages.beepIconImage),
-                    title: Text(
+                    title: const Text(
                       "Beep",
                       style: TextStyle(
                         color: Colors.white,
