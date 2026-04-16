@@ -16,9 +16,7 @@ class PhoneNumberLaunching {
 
   static Future<void> LaunchPhoneNumber(String phoneNumber) async {
     try {
-      final formatedPhoneNumber = formatePhoneNumber(
-        phoneNumber: phoneNumber,
-      );
+      final formatedPhoneNumber = formatePhoneNumber(phoneNumber: phoneNumber);
       final url = Uri.parse("https://wa.me/$formatedPhoneNumber");
       if (await canLaunchUrl(url)) {
         await launchUrl(url, mode: LaunchMode.externalApplication);
