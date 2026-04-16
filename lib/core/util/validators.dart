@@ -46,7 +46,7 @@ class Validation {
         return "${name} is required field";
       }
 
-      final DateFormat format = DateFormat("dd MMM yyyy, hh:mm a","en_US");
+      final DateFormat format = DateFormat("dd MMM yyyy, hh:mm a", "en_US");
 
       try {
         format.parseStrict(value);
