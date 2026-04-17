@@ -16,9 +16,6 @@ class GallerySelectedImage {
 
   static Future<void> scanFromGalleryImageAndUpload({
     required BuildContext context,
-    // required File? selectedImage,
-    // required String scannedData,
-    // required String qrLink,
   }) async {
     final imagePicker = await picker.pickImage(
       source: ImageSource.gallery,
