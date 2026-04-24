@@ -20,7 +20,6 @@ class SharedApkAndQrData {
       data.offsetInBytes,
       data.lengthInBytes,
     );
-
     final fileToShare = File('${tempDir.path}/$fileName');
     try {
       final xFile = XFile(fileToShare.path);
@@ -39,7 +38,6 @@ class SharedApkAndQrData {
       );
     }
   }
-
   static String? shareQrDataAsText(String qrData) {
     SharePlus.instance.share(
       ShareParams(text: 'Qr Code data is: $qrData', subject: 'My QR Code Link'),
