@@ -26,9 +26,7 @@ class GallerySelectedImage {
       ShortMessage.showErrorMessage(context, "No image selected from gallery");
       return;
     }
-
     File selectedFile = File(imagePicker.path);
-
     scannerController.stop();
     context.read<GalleryImageBloc>().add(
       SetImageChange(selectedFile: selectedFile),
