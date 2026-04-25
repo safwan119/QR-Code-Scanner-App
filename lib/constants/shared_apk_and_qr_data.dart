@@ -44,11 +44,9 @@ class SharedApkAndQrData {
     );
     return null;
   }
-
   static void copyQrDataToClipboard(String qrData) {
     Clipboard.setData(ClipboardData(text: qrData));
   }
-
   static Future<Uint8List?> captureQrCodeAsImage() async {
     try {
       final boundary =
@@ -63,7 +61,6 @@ class SharedApkAndQrData {
       return null;
     }
   }
-
   static void shareQrCodeImage(String qrData) async {
     final bytes = await captureQrCodeAsImage();
     if (bytes == null) {
