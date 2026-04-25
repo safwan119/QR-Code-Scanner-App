@@ -6,7 +6,6 @@ class AppSize {
   static void init(BuildContext context) {
     _mediaQuery = MediaQuery.of(context);
   }
-
   ///get height using this function
   static double getHeight(double percentage) {
     if (_mediaQuery == null) {
@@ -14,7 +13,6 @@ class AppSize {
     }
     return _mediaQuery!.size.height * (percentage / 100);
   }
-
   ///get screen width using this function
   static double getWidth(double percentage) {
     if (_mediaQuery == null) {
@@ -22,7 +20,6 @@ class AppSize {
     }
     return _mediaQuery!.size.width * (percentage / 100);
   }
-
   ///get height according to screen as count wise
 
   static double get h0_5 => getHeight(0.5);
@@ -46,7 +43,6 @@ class AppSize {
   static double get h9 => getHeight(9.0);
 
   static double get h10 => getHeight(10.0);
-
   ///get width according to screen as count wise
 
   static double get w0_5 => getWidth(0.5);
