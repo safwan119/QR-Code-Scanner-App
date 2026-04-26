@@ -9,7 +9,6 @@ class Validation {
       return null;
     };
   }
-
   static String? Function(String?) websiteUrlValidity(String name) {
     return (String? value) {
       if (value!.isEmpty) {
@@ -24,7 +23,6 @@ class Validation {
       return null;
     };
   }
-
   static String? Function(String?) wifiPasswordLengthValidation(String name) {
     return (String? value) {
       if (value!.isEmpty) {
@@ -56,7 +54,6 @@ class Validation {
       }
     };
   }
-
   static String? Function(String?) phoneNumberValidity(String name) {
     return (String? value) {
       if (value!.isEmpty) {
@@ -85,7 +82,6 @@ class Validation {
       return null;
     };
   }
-
   static String? Function(String?) usernameValidity(String name) {
     return (String? value) {
       if (value!.isEmpty) {
