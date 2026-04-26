@@ -13,7 +13,6 @@ class PhoneNumberLaunching {
       return phoneNumber;
     }
   }
-
   static Future<void> LaunchPhoneNumber(String phoneNumber) async {
     try {
       final formatedPhoneNumber = formatePhoneNumber(phoneNumber: phoneNumber);
@@ -28,7 +27,6 @@ class PhoneNumberLaunching {
       debugPrint("Error during launching url $e");
     }
   }
-
   static Future<void> launchToDialer(String phoneNumber) async {
     try {
       phoneNumber = phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
