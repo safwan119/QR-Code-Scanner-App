@@ -25,7 +25,6 @@ class ShortMessage {
       )..show(context),
     );
   }
-
   static void showSuccessMessage(BuildContext context, String message) {
     showFlushbar(
       context: context,
