@@ -13,7 +13,6 @@ class WifiLaunch {
       password: password,
       security: NetworkSecurity.WPA,
     );
-
     debugPrint(isConnected ? "Connected!" : "Failed to connect");
     if (!isConnected) {
       debugPrint("Opening WiFi settings...");
