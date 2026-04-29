@@ -119,7 +119,6 @@ class _QrCodeForContactState extends State<QrCodeForContact> {
                                       buildWhen: (previous, current) =>
                                           previous.firstName !=
                                           current.firstName,
-
                                       builder: (context, state) {
                                         return TextFormFieldReusableWidget(
                                           hintText: "Enter name",
