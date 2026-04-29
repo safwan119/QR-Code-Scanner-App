@@ -164,7 +164,6 @@ class _QrCodeForBusinessState extends State<QrCodeForBusiness> {
                               );
                             },
                           ),
-
                           SizedBox(height: AppSize.h4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
